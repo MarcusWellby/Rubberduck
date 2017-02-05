@@ -99,7 +99,7 @@ namespace Rubberduck.UI.ToDoItems
                 }
                 return _refreshCommand = new DelegateCommand(LogManager.GetCurrentClassLogger(), _ =>
                 {
-                    _state.OnParseRequested(this);
+                    _state.OnParseRequested(new ParseRequestEventArgs(this, false));
                 },
                 _ => _state.IsDirty());
             }

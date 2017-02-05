@@ -101,7 +101,7 @@ namespace Rubberduck.UI.Command
                 module.InsertLines(module.CountOfLines, body);
             }
 
-            _state.OnParseRequested(this, _vbe.SelectedVBComponent);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         private string GetNextTestMethodName(IVBComponent component)

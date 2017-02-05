@@ -118,7 +118,7 @@ namespace Rubberduck.Refactorings.MoveCloserToUsage
                 }
 
                 _state.StateChanged += _state_StateChanged;
-                _state.OnParseRequested(this);
+                _state.OnParseRequested(new ParseRequestEventArgs(this, false));
             }
         }
 
@@ -154,7 +154,7 @@ namespace Rubberduck.Refactorings.MoveCloserToUsage
                 }
 
                 _state.StateChanged -= _state_StateChanged;
-                _state.OnParseRequested(this);
+                _state.OnParseRequested(new ParseRequestEventArgs(this, false));
             }
         }
 

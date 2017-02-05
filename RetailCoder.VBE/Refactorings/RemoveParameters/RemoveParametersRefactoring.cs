@@ -56,7 +56,7 @@ namespace Rubberduck.Refactorings.RemoveParameters
                     pane.Selection = oldSelection.Value.Selection;
                 }
 
-                _model.State.OnParseRequested(this);
+                _model.State.OnParseRequested(new ParseRequestEventArgs(this, false));
             }
         }
 

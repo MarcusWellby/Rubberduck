@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Rubberduck.Parsing.VBA;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 
 namespace Rubberduck.Refactorings.ReorderParameters
@@ -59,7 +60,7 @@ namespace Rubberduck.Refactorings.ReorderParameters
                 }
             }
 
-            _model.State.OnParseRequested(this);
+            _model.State.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         public void Refactor(QualifiedSelection target)

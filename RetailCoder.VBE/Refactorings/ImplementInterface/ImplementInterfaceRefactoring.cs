@@ -88,7 +88,7 @@ namespace Rubberduck.Refactorings.ImplementInterface
                 pane.Selection = oldSelection.Value.Selection;
             }
 
-            _state.OnParseRequested(this);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         public void Refactor(Declaration target)

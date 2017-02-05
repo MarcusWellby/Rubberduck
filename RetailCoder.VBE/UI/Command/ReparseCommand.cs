@@ -32,7 +32,8 @@ namespace Rubberduck.UI.Command
 
         protected override void ExecuteImpl(object parameter)
         {
-            _state.OnParseRequested(this);
+            // todo: run inspections per user settings
+            _state.OnParseRequested(new ParseRequestEventArgs(this, true));
             _state.StartEventSinks(); // no-op if already started
         }
     }

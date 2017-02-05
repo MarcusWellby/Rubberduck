@@ -48,10 +48,11 @@ namespace Rubberduck.UI.UnitTesting
                 // update declarations for existing tests--declarations are immutable
                 foreach (var test in Tests.Except(removedTests))
                 {
+                    var testMethod = test;
                     var declaration = tests.First(t =>
-                        t.Declaration.ComponentName == test.Declaration.ComponentName &&
-                        t.Declaration.IdentifierName == test.Declaration.IdentifierName &&
-                        t.Declaration.ProjectId == test.Declaration.ProjectId).Declaration;
+                        t.Declaration.ComponentName == testMethod.Declaration.ComponentName &&
+                        t.Declaration.IdentifierName == testMethod.Declaration.IdentifierName &&
+                        t.Declaration.ProjectId == testMethod.Declaration.ProjectId).Declaration;
 
                     test.SetDeclaration(declaration);
                 }
@@ -59,10 +60,11 @@ namespace Rubberduck.UI.UnitTesting
                 // add new tests
                 foreach (var test in tests)
                 {
+                    var testMethod = test;
                     if (!Tests.Any(t =>
-                        t.Declaration.ComponentName == test.Declaration.ComponentName &&
-                        t.Declaration.IdentifierName == test.Declaration.IdentifierName &&
-                        t.Declaration.ProjectId == test.Declaration.ProjectId))
+                        t.Declaration.ComponentName == testMethod.Declaration.ComponentName &&
+                        t.Declaration.IdentifierName == testMethod.Declaration.IdentifierName &&
+                        t.Declaration.ProjectId == testMethod.Declaration.ProjectId))
                     {
                         Tests.Add(test);
                     }
@@ -110,7 +112,7 @@ namespace Rubberduck.UI.UnitTesting
 
         public void Refresh()
         {
-            _state.OnParseRequested(this);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         private int _executedCount;

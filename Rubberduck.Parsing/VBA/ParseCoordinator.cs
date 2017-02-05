@@ -16,6 +16,7 @@ using System.Linq;
 using NLog;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 using System.Runtime.InteropServices;
+using Rubberduck.Parsing.Inspections;
 using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor.Application;
 
@@ -40,6 +41,7 @@ namespace Rubberduck.Parsing.VBA
         private readonly IAttributeParser _attributeParser;
         private readonly Func<IVBAPreprocessor> _preprocessorFactory;
         private readonly IEnumerable<ICustomDeclarationLoader> _customDeclarationLoaders;
+        private readonly IEnumerable<IInspection> _inspections;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly bool _isTestScope;
@@ -61,6 +63,7 @@ namespace Rubberduck.Parsing.VBA
             _attributeParser = attributeParser;
             _preprocessorFactory = preprocessorFactory;
             _customDeclarationLoaders = customDeclarationLoaders;
+            _inspections = inspections;
             _isTestScope = isTestScope;
             _serializedDeclarationsPath = serializedDeclarationsPath
                 ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Rubberduck", "declarations");
@@ -74,12 +77,19 @@ namespace Rubberduck.Parsing.VBA
         // but the cancelees need to use their own token.
         private readonly List<CancellationTokenSource> _cancellationTokens = new List<CancellationTokenSource> { new CancellationTokenSource() };
 
-        private void ReparseRequested(object sender, EventArgs e)
+        private void ReparseRequested(object sender, ParseRequestEventArgs e)
         {
             if (!_isTestScope)
             {
                 Cancel();
-                Task.Run(() => ParseAll(sender, _cancellationTokens[0].Token));
+                Task.Run(() => ParseAll(sender, _cancellationTokens[0].Token))
+                    .ContinueWith(async t =>
+                    {
+                        if (!t.IsCanceled && !t.IsFaulted && e.RunInspections)
+                        {
+                            await RunInspections(_cancellationTokens[0].Token);
+                        }
+                    });
             }
             else
             {
@@ -99,6 +109,7 @@ namespace Rubberduck.Parsing.VBA
                     _cancellationTokens.Add(new CancellationTokenSource());
                 }
                 _cancellationTokens.RemoveAt(0);
+                _state.ClearInspectionResults();
             }
         }
 
@@ -789,6 +800,43 @@ namespace Rubberduck.Parsing.VBA
             }
         }
 
+        // todo: annotate Declaration/IdentifierReference targets with IInspectionResults.
+        // this will greatly simplify the InspectionResult constructors...
+        private async Task RunInspections(CancellationToken token)
+        {
+            if (token.IsCancellationRequested)
+            {
+                return;
+            }
+
+            _state.OnStatusMessageUpdate(ParsingText.CodeInspections_Inspecting);
+
+            var allIssues = new ConcurrentBag<IInspectionResult>();
+            var inspectionTasks = _inspections.Where(inspection => inspection.Severity != CodeInspectionSeverity.DoNotShow)
+                .Select(inspection =>
+                    Task.Run(() =>
+                    {
+                        token.ThrowIfCancellationRequested();
+                        var inspectionResults = inspection.GetInspectionResults();
+
+                        foreach (var inspectionResult in inspectionResults)
+                        {
+                            allIssues.Add(inspectionResult);
+                        }
+                    }, token)).ToList();
+            
+            token.ThrowIfCancellationRequested();
+            try
+            {
+                await Task.WhenAll(inspectionTasks);
+            }
+            catch (Exception exception)
+            {
+                Logger.Error(exception);
+            }
+
+            _state.OnStatusMessageUpdate(ParsingText.ResourceManager.GetString("ParserState_" + _state.Status)); // should be "Ready"
+        }
 
         public void Dispose()
         {

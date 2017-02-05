@@ -51,7 +51,7 @@ namespace Rubberduck.Refactorings.EncapsulateField
                 }
             }
 
-            _model.State.OnParseRequested(this);
+            _model.State.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         public void Refactor(QualifiedSelection target)

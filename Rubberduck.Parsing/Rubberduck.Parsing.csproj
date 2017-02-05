@@ -305,6 +305,7 @@
     <Compile Include="VBA\IModuleExporter.cs" />
     <Compile Include="VBA\ModuleState.cs" />
     <Compile Include="VBA\ParseErrorEventArgs.cs" />
+    <Compile Include="VBA\ParseRequestEventArgs.cs" />
     <Compile Include="VBA\ParserState.cs" />
     <Compile Include="VBA\ReferencePriorityMap.cs" />
     <Compile Include="VBA\ParseCoordinator.cs" />

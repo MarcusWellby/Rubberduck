@@ -97,7 +97,7 @@ namespace Rubberduck.API
         public void BeginParse()
         {
             // non-blocking call
-            UiDispatcher.Invoke(() => _state.OnParseRequested(this));
+            UiDispatcher.Invoke(() => _state.OnParseRequested(new ParseRequestEventArgs(this, false)));
         }
 
         public event Action OnParsed;

@@ -99,7 +99,7 @@ namespace Rubberduck.UI.Command
 
             }
 
-            _state.OnParseRequested(this, _vbe.SelectedVBComponent);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         private string GetNextTestMethodName(IVBComponent component)

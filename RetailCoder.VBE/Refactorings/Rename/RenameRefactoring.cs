@@ -247,7 +247,7 @@ namespace Rubberduck.Refactorings.Rename
                 }
             }
 
-            _state.OnParseRequested(this);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
         
         private Declaration GetProperty(Declaration declaration, DeclarationType declarationType)

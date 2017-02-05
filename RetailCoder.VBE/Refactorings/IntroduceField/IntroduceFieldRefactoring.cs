@@ -97,7 +97,7 @@ namespace Rubberduck.Refactorings.IntroduceField
                 }
             }
 
-            _state.OnParseRequested(this);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         private void AddField(Declaration target)

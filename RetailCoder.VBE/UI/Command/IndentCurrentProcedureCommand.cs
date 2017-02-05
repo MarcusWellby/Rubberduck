@@ -35,7 +35,7 @@ namespace Rubberduck.UI.Command
         protected override void ExecuteImpl(object parameter)
         {
             _indenter.IndentCurrentProcedure();
-            _state.OnParseRequested(this, _vbe.ActiveCodePane.CodeModule.Parent);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
     }
 }

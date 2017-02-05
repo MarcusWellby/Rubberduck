@@ -20,6 +20,7 @@ namespace Rubberduck.Inspections.Concrete
 {
     namespace Rubberduck.Inspections
     {
+        [Obsolete("Inspections are now executed by the ParseCoordinator.")]
         public class Inspector : IInspector
         {
             private readonly IGeneralConfigService _configService;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Antlr4.Runtime;
@@ -11,6 +12,7 @@ using Rubberduck.Parsing.Symbols;
 using Rubberduck.VBEditor;
 using Rubberduck.Parsing.Annotations;
 using NLog;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor.Application;
 using Rubberduck.VBEditor.Events;
 using Rubberduck.VBEditor.SafeComWrappers;
@@ -52,7 +54,7 @@ namespace Rubberduck.Parsing.VBA
         private readonly ConcurrentDictionary<QualifiedModuleName, ModuleState> _moduleStates =
             new ConcurrentDictionary<QualifiedModuleName, ModuleState>();
 
-        public event EventHandler<EventArgs> ParseRequest;
+        public event EventHandler<ParseRequestEventArgs> ParseRequest;
         public event EventHandler<RubberduckStatusMessageEventArgs> StatusMessageUpdate;
 
         private static readonly List<ParserState> States = new List<ParserState>();
@@ -110,7 +112,7 @@ namespace Rubberduck.Parsing.VBA
             Logger.Debug("Project '{0}' was added.", e.ProjectId);
 
             RefreshProjects(e.Project.VBE); // note side-effect: assigns ProjectId/HelpFile
-            OnParseRequested(sender);
+            OnParseRequested(new ParseRequestEventArgs(sender, false));
         }
 
         private void Sinks_ProjectRemoved(object sender, ProjectEventArgs e)
@@ -120,7 +122,7 @@ namespace Rubberduck.Parsing.VBA
             Debug.Assert(e.ProjectId != null);
 
             RemoveProject(e.ProjectId, true);
-            OnParseRequested(sender);
+            OnParseRequested(new ParseRequestEventArgs(sender, false));
         }
 
         private void Sinks_ProjectRenamed(object sender, ProjectRenamedEventArgs e)
@@ -137,7 +139,7 @@ namespace Rubberduck.Parsing.VBA
             RemoveProject(e.ProjectId);
             RefreshProjects(e.Project.VBE);
 
-            OnParseRequested(sender);
+            OnParseRequested(new ParseRequestEventArgs(sender, false));
         }
 
         private void Sinks_ComponentAdded(object sender, ComponentEventArgs e)
@@ -150,7 +152,7 @@ namespace Rubberduck.Parsing.VBA
             }
 
             Logger.Debug("Component '{0}' was added.", e.Component.Name);
-            OnParseRequested(sender);
+            OnParseRequested(new ParseRequestEventArgs(sender, false));
         }
 
         private void Sinks_ComponentRemoved(object sender, ComponentEventArgs e)
@@ -163,7 +165,7 @@ namespace Rubberduck.Parsing.VBA
             }
 
             Logger.Debug("Component '{0}' was removed.", e.Component.Name);
-            OnParseRequested(sender);
+            OnParseRequested(new ParseRequestEventArgs(sender, false));
         }
 
         private void Sinks_ComponentRenamed(object sender, ComponentRenamedEventArgs e)
@@ -209,7 +211,7 @@ namespace Rubberduck.Parsing.VBA
                 RemoveRenamedComponent(e.ProjectId, e.OldName);
             }
 
-            OnParseRequested(sender);
+            OnParseRequested(new ParseRequestEventArgs(sender, false));
         }
 
         public void OnStatusMessageUpdate(string message)
@@ -896,15 +898,12 @@ namespace Rubberduck.Parsing.VBA
         /// Requests reparse for specified component.
         /// Omit parameter to request a full reparse.
         /// </summary>
-        /// <param name="requestor">The object requesting a reparse.</param>
-        /// <param name="component">The component to reparse.</param>
-        public void OnParseRequested(object requestor, IVBComponent component = null)
+        public void OnParseRequested(ParseRequestEventArgs args)
         {
             var handler = ParseRequest;
             if (handler != null && IsEnabled)
             {
-                var args = EventArgs.Empty;
-                handler.Invoke(requestor, args);
+                handler.Invoke(this, args);
             }
         }
 
@@ -1090,6 +1089,30 @@ namespace Rubberduck.Parsing.VBA
 
         private bool _isDisposed;
         private readonly ISinks _sinks;
+
+        private ConcurrentBag<IInspectionResult> _inspectionResults;
+
+        internal void ClearInspectionResults()
+        {
+            InspectionResults = Enumerable.Empty<IInspectionResult>();
+        }
+
+        internal void AddInspectionResult(IInspectionResult result)
+        {
+            _inspectionResults.Add(result);
+        }
+
+        public IEnumerable<IInspectionResult> InspectionResults
+        {
+            get { return _inspectionResults; }
+            set
+            {
+                lock (_projects)
+                {
+                    _inspectionResults = new ConcurrentBag<IInspectionResult>(value);
+                }
+            }
+        }
 
         public void Dispose()
         {

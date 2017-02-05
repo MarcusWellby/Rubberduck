@@ -114,7 +114,7 @@ namespace Rubberduck.Refactorings.IntroduceParameter
                     pane.Selection = oldSelection.Value.Selection;
                 }
 
-                _state.OnParseRequested(this);
+                _state.OnParseRequested(new ParseRequestEventArgs(this, false));
             }
         }
 

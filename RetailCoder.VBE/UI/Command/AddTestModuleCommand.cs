@@ -142,7 +142,7 @@ namespace Rubberduck.UI.Command
 
             module.AddFromString(options + GetTestModule(settings) + defaultTestMethod);
             component.Activate();
-            _state.OnParseRequested(this, component);
+            _state.OnParseRequested(new ParseRequestEventArgs(this, false));
         }
 
         private string GetNextTestModuleName(IVBProject project)
