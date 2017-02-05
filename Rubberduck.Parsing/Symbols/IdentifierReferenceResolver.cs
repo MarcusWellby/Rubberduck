@@ -1,3 +1,4 @@
+using System;
 using Antlr4.Runtime;
 using NLog;
 using Rubberduck.Parsing.Annotations;
@@ -151,42 +152,58 @@ namespace Rubberduck.Parsing.Symbols
             bool isAssignmentTarget = false,
             bool hasExplicitLetStatement = false)
         {
-            var withExpression = GetInnerMostWithExpression();
-            var boundExpression = _bindingService.ResolveDefault(
-                _moduleDeclaration,
-                _currentParent,
-                expression,
-                withExpression,
-                statementContext);
-            if (boundExpression.Classification == ExpressionClassification.ResolutionFailed)
+            try
             {
-                var lexpr = expression as VBAParser.LExprContext ?? expression.GetChild<VBAParser.LExprContext>(0);
-                if (lexpr != null)
+                var withExpression = GetInnerMostWithExpression();
+                var boundExpression = _bindingService.ResolveDefault(
+                    _moduleDeclaration,
+                    _currentParent,
+                    expression,
+                    withExpression,
+                    statementContext);
+                if (boundExpression.Classification == ExpressionClassification.ResolutionFailed)
                 {
-                    _declarationFinder.AddUnboundContext(_currentParent, lexpr, withExpression);
+                    var lexpr = expression as VBAParser.LExprContext ?? expression.GetChild<VBAParser.LExprContext>(0);
+                    if (lexpr != null)
+                    {
+                        _declarationFinder.AddUnboundContext(_currentParent, lexpr, withExpression);
+                    }
+                    else
+                    {
+                        Logger.Warn(
+                            string.Format(
+                                "Default Context: Failed to resolve {0}. Binding as much as we can.",
+                                expression.GetText()));
+                    }
                 }
-                else
-                {
-                    Logger.Warn(
-                        string.Format(
-                            "Default Context: Failed to resolve {0}. Binding as much as we can.",
-                            expression.GetText()));
-                }
+                _boundExpressionVisitor.AddIdentifierReferences(boundExpression, _qualifiedModuleName, _currentScope, _currentParent, isAssignmentTarget, hasExplicitLetStatement);
             }
-            _boundExpressionVisitor.AddIdentifierReferences(boundExpression, _qualifiedModuleName, _currentScope, _currentParent, isAssignmentTarget, hasExplicitLetStatement);
+            catch (Exception e)
+            {
+                Logger.Error(e, "Context type: {0}\nStart line: {1}\nEnd line: {2}", expression.GetType(), expression.Start.Line, expression.Stop.Line);
+                throw;
+            }
         }
 
         private void ResolveType(ParserRuleContext expression)
         {
-            var boundExpression = _bindingService.ResolveType(_moduleDeclaration, _currentParent, expression);
-            if (boundExpression.Classification == ExpressionClassification.ResolutionFailed)
+            try
             {
-                Logger.Warn(
-                   string.Format(
-                       "Type Context: Failed to resolve {0}. Binding as much as we can.",
-                       expression.GetText()));
+                var boundExpression = _bindingService.ResolveType(_moduleDeclaration, _currentParent, expression);
+                if (boundExpression.Classification == ExpressionClassification.ResolutionFailed)
+                {
+                    Logger.Warn(
+                        string.Format(
+                            "Type Context: Failed to resolve {0}. Binding as much as we can.",
+                            expression.GetText()));
+                }
+                _boundExpressionVisitor.AddIdentifierReferences(boundExpression, _qualifiedModuleName, _currentScope, _currentParent);
             }
-            _boundExpressionVisitor.AddIdentifierReferences(boundExpression, _qualifiedModuleName, _currentScope, _currentParent);
+            catch (Exception e)
+            {
+                Logger.Error(e, "Context type: {0}\nStart line: {1}\nEnd line: {2}", expression.GetType(), expression.Start.Line, expression.Stop.Line);
+                throw;
+            }
         }
 
         public void Resolve(VBAParser.GoToStmtContext context)
