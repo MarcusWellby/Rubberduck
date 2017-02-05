@@ -416,7 +416,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Inspections\Abstract\IParseTreeInspection.cs" />
     <Compile Include="Inspections\QuickFixes\MakeSingleLineParameterQuickFix.cs" />
     <Compile Include="Inspections\MissingAnnotationArgumentInspection.cs" />
     <Compile Include="Inspections\ModuleScopeDimKeywordInspection.cs" />
@@ -544,8 +543,6 @@
     <Compile Include="Inspections\QuickFixes\ConvertToProcedureQuickFix.cs" />
     <Compile Include="Inspections\FunctionReturnValueNotUsedInspection.cs" />
     <Compile Include="Inspections\Results\FunctionReturnValueNotUsedInspectionResult.cs" />
-    <Compile Include="Inspections\Abstract\IInspection.cs" />
-    <Compile Include="Inspections\Abstract\IInspectionModel.cs" />
     <Compile Include="Inspections\SelfAssignedDeclarationInspection.cs" />
     <Compile Include="Inspections\QuickFixes\SelfAssignedDeclarationInspectionResult.cs" />
     <Compile Include="Inspections\MoveFieldCloserToUsageInspection.cs" />
@@ -614,7 +611,6 @@
     <Compile Include="Inspections\ConstantNotUsedInspection.cs" />
     <Compile Include="Inspections\DefaultProjectNameInspection.cs" />
     <Compile Include="Inspections\Results\DefaultProjectNameInspectionResult.cs" />
-    <Compile Include="Inspections\Abstract\IInspectionResult.cs" />
     <Compile Include="Inspections\Abstract\IInspector.cs" />
     <Compile Include="Inspections\ImplicitPublicMemberInspection.cs" />
     <Compile Include="Inspections\Results\ImplicitPublicMemberInspectionResult.cs" />
@@ -966,8 +962,6 @@
     <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="Settings\CodeInspectionSettings.cs" />
     <Compile Include="Inspections\Abstract\InspectionResultBase.cs" />
-    <Compile Include="Inspections\Resources\CodeInspectionSeverity.cs" />
-    <Compile Include="Inspections\Resources\CodeInspectionType.cs" />
     <Compile Include="Inspections\ImplicitByRefParameterInspection.cs" />
     <Compile Include="Inspections\Results\ImplicitByRefParameterInspectionResult.cs" />
     <Compile Include="Inspections\ImplicitVariantReturnTypeInspection.cs" />

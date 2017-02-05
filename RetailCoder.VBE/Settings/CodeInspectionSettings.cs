@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
-using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
+using Rubberduck.Parsing.Inspections;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.UI;
 
 namespace Rubberduck.Settings

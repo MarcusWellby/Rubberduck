@@ -3,6 +3,7 @@ using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Inspections.Resources;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor;
 
 namespace Rubberduck.Inspections.Results
@@ -25,7 +26,7 @@ namespace Rubberduck.Inspections.Results
             get { return _qualifiedSelection; }
         }
 
-        public override IEnumerable<QuickFixBase> QuickFixes
+        public override IEnumerable<IQuickFix> QuickFixes
         {
             get
             {

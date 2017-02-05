@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Rubberduck.Inspections.Resources;
+using Rubberduck.Parsing.Inspections;
 using Rubberduck.SettingsProvider;
 
 namespace Rubberduck.Settings

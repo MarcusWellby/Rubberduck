@@ -128,6 +128,13 @@
     <Compile Include="Grammar\VBAParserBaseVisitor.cs" />
     <Compile Include="Grammar\VBAParserListener.cs" />
     <Compile Include="Grammar\VBAParserVisitor.cs" />
+    <Compile Include="Inspections\Abstract\IInspection.cs" />
+    <Compile Include="Inspections\Abstract\IInspectionModel.cs" />
+    <Compile Include="Inspections\Abstract\IInspectionResult.cs" />
+    <Compile Include="Inspections\Abstract\IParseTreeInspection.cs" />
+    <Compile Include="Inspections\Abstract\IQuickFix.cs" />
+    <Compile Include="Inspections\CodeInspectionSeverity.cs" />
+    <Compile Include="Inspections\CodeInspectionType.cs" />
     <Compile Include="Preprocessing\IVBAPreprocessor.cs" />
     <Compile Include="Preprocessing\VBAConditionalCompilationParser.cs" />
     <Compile Include="Preprocessing\VBAConditionalCompilationParserBaseListener.cs" />

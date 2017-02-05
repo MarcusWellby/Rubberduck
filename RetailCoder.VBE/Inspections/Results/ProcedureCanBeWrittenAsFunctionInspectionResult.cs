@@ -7,6 +7,7 @@ using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing;
 using Rubberduck.Parsing.Grammar;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.VBEditor;
@@ -32,7 +33,7 @@ namespace Rubberduck.Inspections.Results
            _state = state;
         }
 
-       public override IEnumerable<QuickFixBase> QuickFixes
+       public override IEnumerable<IQuickFix> QuickFixes
        {
            get
            {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using Rubberduck.Common;
 using Rubberduck.Parsing;
 using Rubberduck.Parsing.Grammar;
@@ -10,6 +9,8 @@ using NLog;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Inspections.Results;
+using Rubberduck.Parsing.Inspections;
+using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Inspections
 {
@@ -34,7 +35,7 @@ namespace Rubberduck.Inspections
             _results = results;
         }
 
-        public override IEnumerable<InspectionResultBase> GetInspectionResults()
+        public override IEnumerable<IInspectionResult> GetInspectionResults()
         {
             if (ParseTreeResults == null)
             {

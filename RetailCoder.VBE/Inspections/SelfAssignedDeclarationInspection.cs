@@ -4,6 +4,8 @@ using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing.Grammar;
+using Rubberduck.Parsing.Inspections;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.Parsing.Symbols;
 
@@ -35,7 +37,7 @@ namespace Rubberduck.Inspections
             Tokens.String
         };
 
-        public override IEnumerable<InspectionResultBase> GetInspectionResults()
+        public override IEnumerable<IInspectionResult> GetInspectionResults()
         {
             return UserDeclarations
                 .Where(declaration => declaration.IsSelfAssigned 

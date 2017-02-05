@@ -13,6 +13,7 @@ using Rubberduck.Parsing.Preprocessing;
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor.Events;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 
@@ -44,7 +45,7 @@ namespace RubberduckTests.Mocks
             return Create(vbe, state, attributeParser.Object, serializedDeclarationsPath);
         }
 
-        public static ParseCoordinator Create(IVBE vbe, RubberduckParserState state, IAttributeParser attributeParser, string serializedDeclarationsPath = null)
+        public static ParseCoordinator Create(IVBE vbe, RubberduckParserState state, IAttributeParser attributeParser, string serializedDeclarationsPath = null, IEnumerable<IInspection> inspections = null)
         {
             var path = serializedDeclarationsPath ??
                        Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(MockParser)).Location), "TestFiles", "Resolver");
@@ -57,7 +58,7 @@ namespace RubberduckTests.Mocks
                     new SpecialFormDeclarations(state), 
                     new FormEventDeclarations(state), 
                     new AliasDeclarations(state),
-                }, true, path);
+                }, inspections ?? Enumerable.Empty<IInspection>(), true, path);
         }
 
         private static readonly HashSet<DeclarationType> ProceduralTypes =

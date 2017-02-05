@@ -16,8 +16,8 @@ using System.Linq;
 using NLog;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 using System.Runtime.InteropServices;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor.Application;
-using Rubberduck.VBEditor.Extensions;
 
 // ReSharper disable LoopCanBeConvertedToQuery
 
@@ -52,6 +52,7 @@ namespace Rubberduck.Parsing.VBA
             IAttributeParser attributeParser,
             Func<IVBAPreprocessor> preprocessorFactory,
             IEnumerable<ICustomDeclarationLoader> customDeclarationLoaders,
+            IEnumerable<IInspection> inspections,
             bool isTestScope = false,
             string serializedDeclarationsPath = null)
         {

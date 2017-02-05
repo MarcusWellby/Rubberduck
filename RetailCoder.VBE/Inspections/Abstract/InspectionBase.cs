@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing.Annotations;
+using Rubberduck.Parsing.Inspections;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
@@ -42,7 +44,7 @@ namespace Rubberduck.Inspections.Abstract
         /// A method that inspects the parser state and returns all issues it can find.
         /// </summary>
         /// <returns></returns>
-        public abstract IEnumerable<InspectionResultBase> GetInspectionResults();
+        public abstract IEnumerable<IInspectionResult> GetInspectionResults();
 
         /// <summary>
         /// The inspection type name, obtained by reflection.

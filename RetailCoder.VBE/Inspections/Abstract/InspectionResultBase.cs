@@ -4,6 +4,7 @@ using System.Linq;
 using Antlr4.Runtime;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.UI;
 using Rubberduck.UI.Controls;
@@ -20,16 +21,9 @@ namespace Rubberduck.Inspections.Abstract
         }
 
         /// <summary>
-        /// Creates a comment inspection result.
-        /// </summary>
-        protected InspectionResultBase(IInspection inspection, QualifiedModuleName qualifiedName)
-            : this(inspection, qualifiedName, null)
-        { }
-
-        /// <summary>
         /// Creates an inspection result.
         /// </summary>
-        protected InspectionResultBase(IInspection inspection, QualifiedModuleName qualifiedName, ParserRuleContext context)
+        protected InspectionResultBase(IInspection inspection, QualifiedModuleName qualifiedName, ParserRuleContext context = null)
         {
             _inspection = inspection;
             _qualifiedName = qualifiedName;
@@ -77,11 +71,11 @@ namespace Rubberduck.Inspections.Abstract
         /// <summary>
         /// Gets all available "quick fixes" for a code inspection result.
         /// </summary>
-        public virtual IEnumerable<QuickFixBase> QuickFixes { get { return Enumerable.Empty<QuickFixBase>(); } }
+        public virtual IEnumerable<IQuickFix> QuickFixes { get { return Enumerable.Empty<QuickFixBase>(); } }
 
         public bool HasQuickFixes { get { return QuickFixes.Any(); } }
 
-        public virtual QuickFixBase DefaultQuickFix { get { return QuickFixes.FirstOrDefault(); } }
+        public virtual IQuickFix DefaultQuickFix { get { return QuickFixes.FirstOrDefault(); } }
 
         public virtual int CompareTo(IInspectionResult other)
         {

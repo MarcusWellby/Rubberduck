@@ -1,10 +1,11 @@
 ﻿using System.Windows.Threading;
 using Antlr4.Runtime;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor;
 
 namespace Rubberduck.Inspections.Abstract
 {
-    public abstract class QuickFixBase
+    public abstract class QuickFixBase : IQuickFix
     {
         private readonly ParserRuleContext _context;
         private readonly QualifiedSelection _selection;

@@ -13,6 +13,8 @@ using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Inspections.Results;
+using Rubberduck.Parsing.Inspections;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.Settings;
 using Rubberduck.UI.Command;
@@ -94,7 +96,7 @@ namespace Rubberduck.UI.Inspections
             }
         }
 
-        private QuickFixBase _defaultFix;
+        private IQuickFix _defaultFix;
 
         private INavigateSource _selectedItem;
         public INavigateSource SelectedItem
@@ -292,7 +294,7 @@ namespace Rubberduck.UI.Inspections
             LogManager.GetCurrentClassLogger().Trace("Inspections loaded in {0}ms", stopwatch.ElapsedMilliseconds);
         }
 
-        private void ExecuteQuickFixes(IEnumerable<QuickFixBase> quickFixes)
+        private void ExecuteQuickFixes(IEnumerable<IQuickFix> quickFixes)
         {
             var fixes = quickFixes.ToList();
             var completed = 0;

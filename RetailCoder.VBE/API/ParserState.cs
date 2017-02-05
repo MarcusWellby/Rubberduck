@@ -9,6 +9,7 @@ using Rubberduck.Parsing.VBA;
 using Rubberduck.UI.Command.MenuItems;
 using Rubberduck.Parsing.Preprocessing;
 using System.Globalization;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor.SafeComWrappers.VBA;
 
 namespace Rubberduck.API
@@ -78,7 +79,7 @@ namespace Rubberduck.API
                     new FormEventDeclarations(_state),
                     new AliasDeclarations(_state),
                     //new RubberduckApiDeclarations(_state)
-                });
+                }, Enumerable.Empty<IInspection>());
         }
 
         /// <summary>

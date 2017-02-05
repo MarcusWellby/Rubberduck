@@ -5,6 +5,7 @@ using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing;
 using Rubberduck.Parsing.Grammar;
+using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Inspections.Results
 {
@@ -16,7 +17,7 @@ namespace Rubberduck.Inspections.Results
             : base(inspection, qualifiedContext.ModuleName, qualifiedContext.Context)
         { }
 
-        public override IEnumerable<QuickFixBase> QuickFixes
+        public override IEnumerable<IQuickFix> QuickFixes
         {
             get
             {

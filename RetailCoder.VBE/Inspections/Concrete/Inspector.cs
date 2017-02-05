@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Antlr4.Runtime.Tree;
 using NLog;
 using Rubberduck.Inspections.Abstract;
-using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing;
 using Rubberduck.Parsing.Grammar;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.Settings;
 using Rubberduck.UI;
 using Rubberduck.Inspections.Results;
+using Rubberduck.Parsing.Inspections;
+using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Inspections.Concrete
 {

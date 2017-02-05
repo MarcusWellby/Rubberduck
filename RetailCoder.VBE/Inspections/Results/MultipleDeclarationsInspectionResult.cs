@@ -6,6 +6,7 @@ using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing;
 using Rubberduck.Parsing.Grammar;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor;
 
 namespace Rubberduck.Inspections.Results
@@ -26,7 +27,7 @@ namespace Rubberduck.Inspections.Results
             get { return InspectionsUI.MultipleDeclarationsInspectionResultFormat.Captialize(); }
         }
 
-        public override IEnumerable<QuickFixBase> QuickFixes
+        public override IEnumerable<IQuickFix> QuickFixes
         {
             get
             {

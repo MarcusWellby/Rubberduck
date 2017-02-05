@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime;
-using Rubberduck.Parsing;
 
-namespace Rubberduck.Inspections.Abstract
+namespace Rubberduck.Parsing.Inspections.Abstract
 {
     public interface IParseTreeInspection : IInspection
     {
