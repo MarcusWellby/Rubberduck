@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Rubberduck.Parsing;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
@@ -49,7 +50,7 @@ namespace Rubberduck.UI.Command.MenuItems.CommandBars
             return _formatter.Format(activeCodePane, declaration);
         }
 
-        public void SetContextSelectionCaption(string caption, int contextReferenceCount)
+        public void SetContextSelectionCaption(string caption, int contextReferenceCount, IEnumerable<IInspectionResult> inspectionResults)
         {
             var contextLabel = FindChildByTag(typeof(ContextSelectionLabelMenuItem).FullName) as ContextSelectionLabelMenuItem;
             if (contextLabel == null) { return; }
@@ -57,10 +58,16 @@ namespace Rubberduck.UI.Command.MenuItems.CommandBars
             var contextReferences = FindChildByTag(typeof(ReferenceCounterLabelMenuItem).FullName) as ReferenceCounterLabelMenuItem;
             if (contextReferences == null) { return; }
 
+            var issues = FindChildByTag(typeof(InspectionResultsLabelMenuItem).FullName) as InspectionResultsLabelMenuItem;
+
             UiDispatcher.Invoke(() =>
             {
                 contextLabel.SetCaption(caption);
                 contextReferences.SetCaption(contextReferenceCount);
+                if (issues != null)
+                {
+                    issues.SetCaption(inspectionResults);
+                }
             });
             Localize();
         }
@@ -80,5 +87,6 @@ namespace Rubberduck.UI.Command.MenuItems.CommandBars
         ShowErrors,
         ContextStatus,
         ContextRefCount,
+        InspectionResults
     }
 }

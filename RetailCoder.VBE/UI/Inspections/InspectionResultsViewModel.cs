@@ -253,7 +253,7 @@ namespace Rubberduck.UI.Inspections
             {
                 results = results.OrderBy(o => o.Inspection.InspectionType)
                     .ThenBy(t => t.Inspection.Name)
-                    .ThenBy(t => t.Target)
+                    .ThenBy(t => t.Target.Target as IComparable)
                     .ToList();
             }
             else

@@ -16,6 +16,7 @@ namespace Rubberduck.UI.Command.MenuItems.ParentMenus
     public enum CodePaneContextMenuItemDisplayOrder
     {
         Refactorings,
+        InspectionResults,
         Indenter,
         RegexSearchReplace,
         FindSymbol,

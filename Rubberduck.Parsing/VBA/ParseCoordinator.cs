@@ -826,6 +826,7 @@ namespace Rubberduck.Parsing.VBA
                     {
                         token.ThrowIfCancellationRequested();
                         var inspectionResults = inspection.GetInspectionResults();
+                        inspection.Execute();
 
                         foreach (var inspectionResult in inspectionResults)
                         {
@@ -838,7 +839,6 @@ namespace Rubberduck.Parsing.VBA
             {
                 await Task
                     .WhenAll(inspectionTasks)
-                    .ContinueWith(t => Parallel.ForEach(allIssues, result => _state.AddInspectionResult(result)), token)
                     .ContinueWith(t => _state.SetStatusAndFireStateChanged(this, ParserState.Ready), token);
             }
             catch (Exception exception)

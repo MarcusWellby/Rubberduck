@@ -13,6 +13,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.UI.Command;
 using Rubberduck.UI.Command.MenuItems.CommandBars;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
@@ -96,7 +97,11 @@ namespace Rubberduck
                     selectedDeclaration = _parser.State.FindSelectedDeclaration(pane);
                     var refCount = selectedDeclaration == null ? 0 : selectedDeclaration.References.Count();
                     var caption = _stateBar.GetContextSelectionCaption(_vbe.ActiveCodePane, selectedDeclaration);
-                    _stateBar.SetContextSelectionCaption(caption, refCount);
+                    var issues = selectedDeclaration == null
+                        ? Enumerable.Empty<IInspectionResult>()
+                        : selectedDeclaration.InspectionResults;
+
+                    _stateBar.SetContextSelectionCaption(caption, refCount, issues);
                 }
 
                 var currentStatus = _parser.State.Status;
