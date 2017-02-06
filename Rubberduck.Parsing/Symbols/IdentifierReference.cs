@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using System;
+using System.Collections.Concurrent;
+using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Parsing.Symbols
 {
@@ -44,6 +46,16 @@ namespace Rubberduck.Parsing.Symbols
 
         private readonly Selection _selection;
         public Selection Selection { get { return _selection; } }
+
+        private readonly ConcurrentBag<IInspectionResult> _inspectionResults
+            = new ConcurrentBag<IInspectionResult>();
+
+        public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectionResults; } }
+
+        public void Annotate(IInspectionResult inspectionResult)
+        {
+            _inspectionResults.Add(inspectionResult);
+        }
 
         private readonly Declaration _parentScopingDeclaration;
         /// <summary>

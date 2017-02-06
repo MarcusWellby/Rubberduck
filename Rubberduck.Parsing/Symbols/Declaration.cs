@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 
 namespace Rubberduck.Parsing.Symbols
@@ -391,6 +392,16 @@ namespace Rubberduck.Parsing.Symbols
                     isAssignmentTarget,
                     hasExplicitLetStatement,
                     annotations));
+        }
+
+        private readonly ConcurrentBag<IInspectionResult> _inspectionResults
+            = new ConcurrentBag<IInspectionResult>();
+
+        public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectionResults; } }
+
+        public void Annotate(IInspectionResult inspectionResult)
+        {
+            _inspectionResults.Add(inspectionResult);
         }
 
         private readonly Selection _selection;
