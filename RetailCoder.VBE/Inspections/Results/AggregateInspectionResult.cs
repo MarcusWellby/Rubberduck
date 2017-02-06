@@ -3,7 +3,6 @@ using Rubberduck.Inspections.Resources;
 using Rubberduck.VBEditor;
 using System.Collections.Generic;
 using System.Linq;
-using Antlr4.Runtime;
 using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Inspections.Results
@@ -14,7 +13,7 @@ namespace Rubberduck.Inspections.Results
         private readonly int _count;
 
         public AggregateInspectionResult(IInspectionResult firstResult, int count)
-            : base(firstResult.Inspection, firstResult.QualifiedSelection.QualifiedName, ParserRuleContext.EmptyContext)
+            : base(firstResult.Target, firstResult.IdentifierName)
         {
             _result = firstResult;
             _count = count;
@@ -28,7 +27,7 @@ namespace Rubberduck.Inspections.Results
             }
         }
 
-        public override QualifiedSelection QualifiedSelection { get { return _result.QualifiedSelection; } }
+        public override QualifiedSelection QualifiedSelection { get { return new QualifiedSelection(Target.QualifiedName.QualifiedModuleName, Target.Selection); } }
 
         public override IEnumerable<IQuickFix> QuickFixes
         {

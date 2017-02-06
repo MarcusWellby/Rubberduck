@@ -134,9 +134,9 @@ namespace Rubberduck.UI.Inspections
                     Results = new ObservableCollection<IInspectionResult>(
                             Results.OrderBy(o => o.Inspection.InspectionType)
                                 .ThenBy(t => t.Inspection.Name)
-                                .ThenBy(t => t.QualifiedSelection.QualifiedName.Name)
-                                .ThenBy(t => t.QualifiedSelection.Selection.StartLine)
-                                .ThenBy(t => t.QualifiedSelection.Selection.StartColumn)
+                                .ThenBy(t => t.Target.Module.IdentifierName)
+                                .ThenBy(t => t.Target.Selection.StartLine)
+                                .ThenBy(t => t.Target.Selection.StartColumn)
                                 .ToList());
                 }
 
@@ -156,10 +156,10 @@ namespace Rubberduck.UI.Inspections
                 if (value)
                 {
                     Results = new ObservableCollection<IInspectionResult>(
-                            Results.OrderBy(o => o.QualifiedSelection.QualifiedName.Name)
+                            Results.OrderBy(o => o.Target.Module.IdentifierName)
                                 .ThenBy(t => t.Inspection.Name)
-                                .ThenBy(t => t.QualifiedSelection.Selection.StartLine)
-                                .ThenBy(t => t.QualifiedSelection.Selection.StartColumn)
+                                .ThenBy(t => t.Target.Selection.StartLine)
+                                .ThenBy(t => t.Target.Selection.StartColumn)
                                 .ToList());
                 }
 
@@ -246,24 +246,22 @@ namespace Rubberduck.UI.Inspections
             var results = issuesByType.Where(kv => kv.Value.Count <= AGGREGATION_THRESHOLD)
                 .SelectMany(kv => kv.Value)
                 .Union(issuesByType.Where(kv => kv.Value.Count > AGGREGATION_THRESHOLD)
-                .Select(kv => new AggregateInspectionResult(kv.Value.OrderBy(i => i.QualifiedSelection).First(), kv.Value.Count)))
+                .Select(kv => new AggregateInspectionResult(kv.Value.OrderBy(i => i.Target).First(), kv.Value.Count)))
                 .ToList();
 
             if (GroupByInspectionType)
             {
                 results = results.OrderBy(o => o.Inspection.InspectionType)
                     .ThenBy(t => t.Inspection.Name)
-                    .ThenBy(t => t.QualifiedSelection.QualifiedName.Name)
-                    .ThenBy(t => t.QualifiedSelection.Selection.StartLine)
-                    .ThenBy(t => t.QualifiedSelection.Selection.StartColumn)
+                    .ThenBy(t => t.Target)
                     .ToList();
             }
             else
             {
-                results = results.OrderBy(o => o.QualifiedSelection.QualifiedName.Name)
+                results = results.OrderBy(o => o.Target.Module.IdentifierName)
                     .ThenBy(t => t.Inspection.Name)
-                    .ThenBy(t => t.QualifiedSelection.Selection.StartLine)
-                    .ThenBy(t => t.QualifiedSelection.Selection.StartColumn)
+                    .ThenBy(t => t.Target.Selection.StartLine)
+                    .ThenBy(t => t.Target.Selection.StartColumn)
                     .ToList();
             }
 
@@ -340,7 +338,7 @@ namespace Rubberduck.UI.Inspections
 
             var filteredResults = _results
                 .Where(result => result.Inspection == SelectedInspection
-                              && result.QualifiedSelection.QualifiedName == selectedResult.QualifiedSelection.QualifiedName)
+                              && result.Target.Module.QualifiedName.QualifiedModuleName == selectedResult.QualifiedSelection.QualifiedName)
                 .ToList();
 
             var items = filteredResults
@@ -406,7 +404,7 @@ namespace Rubberduck.UI.Inspections
             }
             ColumnInfo[] ColumnInfos = { new ColumnInfo("Type"), new ColumnInfo("Project"), new ColumnInfo("Component"), new ColumnInfo("Issue"), new ColumnInfo("Line", hAlignment.Right), new ColumnInfo("Column", hAlignment.Right) };
 
-            var aResults = _results.Select(result => result.ToArray()).ToArray();
+            var aResults = _results.Select(result => ((ICopyFormatter)result).ToArray()).ToArray();
 
             var resource = _results.Count == 1
                 ? RubberduckUI.CodeInspections_NumberOfIssuesFound_Singular
@@ -414,7 +412,7 @@ namespace Rubberduck.UI.Inspections
 
             var title = string.Format(resource, DateTime.Now.ToString(CultureInfo.InvariantCulture), _results.Count);
 
-            var textResults = title + Environment.NewLine + string.Join("", _results.Select(result => result.ToClipboardString() + Environment.NewLine).ToArray());
+            var textResults = title + Environment.NewLine + string.Join("", _results.Select(result => ((ICopyFormatter)result).ToClipboardString() + Environment.NewLine).ToArray());
             var csvResults = ExportFormatter.Csv(aResults, title,ColumnInfos);
             var htmlResults = ExportFormatter.HtmlClipboardFragment(aResults, title,ColumnInfos);
             var rtfResults = ExportFormatter.RTF(aResults, title);

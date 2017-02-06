@@ -25,7 +25,7 @@ namespace Rubberduck.Inspections
         public override CodeInspectionType InspectionType { get { return CodeInspectionType.LanguageOpportunities; } }
 
         public IEnumerable<QualifiedContext<VBAParser.CallStmtContext>> ParseTreeResults { get { return _parseTreeResults.OfType<QualifiedContext<VBAParser.CallStmtContext>>(); } }
-        public void SetResults(IEnumerable<QualifiedContext> results) { _parseTreeResults = results; } 
+        public void SetResults(IEnumerable<QualifiedContext> results) { _parseTreeResults = results; }
 
         public override IEnumerable<IInspectionResult> GetInspectionResults()
         {

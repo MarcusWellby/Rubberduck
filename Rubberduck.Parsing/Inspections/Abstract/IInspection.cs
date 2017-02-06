@@ -14,6 +14,8 @@ namespace Rubberduck.Parsing.Inspections.Abstract
         /// <returns>Returns inspection results, if any.</returns>
         IEnumerable<IInspectionResult> GetInspectionResults();
 
+        void Execute();
+
         /// <summary>
         /// Gets a string that contains additional/meta information about an inspection.
         /// </summary>

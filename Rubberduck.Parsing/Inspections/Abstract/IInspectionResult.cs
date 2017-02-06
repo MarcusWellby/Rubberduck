@@ -5,13 +5,20 @@ using Rubberduck.VBEditor;
 
 namespace Rubberduck.Parsing.Inspections.Abstract
 {
-    public interface IInspectionResult : IComparable<IInspectionResult>, IComparable
+    public interface IInspectionResult // todo: rename to IInspectionResult
+        : IComparable<IInspectionResult>, IComparable
     {
-        Declaration Target { get; }
-        IEnumerable<IQuickFix> QuickFixes { get; }
         string Description { get; }
-        QualifiedSelection QualifiedSelection { get; }
+        string IdentifierName { get; }
+        
         IInspection Inspection { get; }
+        InspectionResultTarget Target { get; }
+
+        IEnumerable<IQuickFix> QuickFixes { get; }
+    }
+
+    public interface ICopyFormatter
+    {
         object[] ToArray();
         string ToClipboardString();
     }

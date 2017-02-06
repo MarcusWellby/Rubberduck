@@ -59,7 +59,7 @@ namespace Rubberduck.Inspections.Concrete
             {
                 if (state == null || !state.AllUserDeclarations.Any())
                 {
-                    return new IInspectionResult[] { };
+                    return Enumerable.Empty<IInspectionResult>();
                 }
 
                 state.OnStatusMessageUpdate(RubberduckUI.CodeInspections_Inspecting);
@@ -103,7 +103,7 @@ namespace Rubberduck.Inspections.Concrete
                 var results = issuesByType.Where(kv => kv.Value.Count <= AGGREGATION_THRESHOLD)
                     .SelectMany(kv => kv.Value)
                     .Union(issuesByType.Where(kv => kv.Value.Count > AGGREGATION_THRESHOLD)
-                    .Select(kv => new AggregateInspectionResult(kv.Value.OrderBy(i => i.QualifiedSelection).First(), kv.Value.Count)))
+                    .Select(kv => new AggregateInspectionResult(kv.Value.OrderBy(i => i.Target).First(), kv.Value.Count)))
                     .ToList();
 
                 state.OnStatusMessageUpdate(RubberduckUI.ResourceManager.GetString("ParserState_" + state.Status, UI.Settings.Settings.Culture)); // should be "Ready"

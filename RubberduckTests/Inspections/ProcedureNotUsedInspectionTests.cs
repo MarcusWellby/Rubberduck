@@ -195,7 +195,7 @@ End Sub";
             var inspection = new ProcedureNotUsedInspection(parser.State);
             var inspectionResults = inspection.GetInspectionResults();
 
-            Assert.AreEqual(0, inspectionResults.Count(result => result.Target.DeclarationType == DeclarationType.Procedure));
+            Assert.AreEqual(0, inspectionResults.Where(result => result.Target.Target is Declaration).Count(result => ((Declaration)result.Target.Target).DeclarationType == DeclarationType.Procedure));
         }
 
         [TestMethod]

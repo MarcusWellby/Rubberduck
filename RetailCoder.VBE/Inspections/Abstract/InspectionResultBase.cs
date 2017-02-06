@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Antlr4.Runtime;
@@ -12,8 +13,19 @@ using Rubberduck.VBEditor;
 
 namespace Rubberduck.Inspections.Abstract
 {
-    public abstract class InspectionResultBase : IInspectionResult, INavigateSource
+    public abstract class InspectionResultBase : INavigateSource
+        , IInspectionResult, ICopyFormatter
     {
+        private readonly InspectionResultTarget _newTarget;
+
+        protected InspectionResultBase(InspectionResultTarget target, string identifierName)
+        {
+            _newTarget = target;
+            _identifierName = identifierName;
+        }
+        
+
+        [Obsolete]
         protected InspectionResultBase(IInspection inspection, Declaration target)
             : this(inspection, target.QualifiedName.QualifiedModuleName, target.Context)
         {
@@ -23,6 +35,7 @@ namespace Rubberduck.Inspections.Abstract
         /// <summary>
         /// Creates an inspection result.
         /// </summary>
+        [Obsolete]
         protected InspectionResultBase(IInspection inspection, QualifiedModuleName qualifiedName, ParserRuleContext context = null)
         {
             _inspection = inspection;
@@ -33,6 +46,7 @@ namespace Rubberduck.Inspections.Abstract
         /// <summary>
         /// Creates an inspection result.
         /// </summary>
+        [Obsolete]
         protected InspectionResultBase(IInspection inspection, QualifiedModuleName qualifiedName, ParserRuleContext context, Declaration declaration)
         {
             _inspection = inspection;
@@ -43,6 +57,7 @@ namespace Rubberduck.Inspections.Abstract
 
         private readonly IInspection _inspection;
         public IInspection Inspection { get { return _inspection; } }
+        InspectionResultTarget IInspectionResult.Target { get { return _newTarget; } }
 
         public abstract string Description { get; }
 
@@ -54,6 +69,9 @@ namespace Rubberduck.Inspections.Abstract
 
         private readonly Declaration _target;
         public Declaration Target { get { return _target; } }
+
+        private readonly string _identifierName;
+        public string IdentifierName { get { return _identifierName; } }
 
         /// <summary>
         /// Gets the information needed to select the target instruction in the VBE.
@@ -79,7 +97,10 @@ namespace Rubberduck.Inspections.Abstract
 
         public virtual int CompareTo(IInspectionResult other)
         {
-            return Inspection.CompareTo(other.Inspection);
+            var result = Inspection.CompareTo(other.Inspection);
+            return result > 0 
+                ? QualifiedSelection.Selection.CompareTo(other.Target.Selection) 
+                : result;
         }
 
         /// <summary>

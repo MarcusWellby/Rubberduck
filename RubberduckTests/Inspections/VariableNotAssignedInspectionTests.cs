@@ -5,6 +5,7 @@ using Moq;
 using Rubberduck.Inspections;
 using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Parsing.Inspections;
+using Rubberduck.Parsing.Symbols;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.VBEditor.Application;
 using Rubberduck.VBEditor.Events;
@@ -246,7 +247,7 @@ End Sub";
             if (parser.State.Status >= ParserState.Error) { Assert.Inconclusive("Parser Error"); }
 
             var inspection = new VariableNotAssignedInspection(parser.State);
-            inspection.GetInspectionResults().Single(s => s.Target.IdentifierName == "var2").QuickFixes.First().Fix();
+            inspection.GetInspectionResults().Single(s => s.Target.Target is Declaration && ((Declaration)s.Target.Target).IdentifierName == "var2").QuickFixes.First().Fix();
 
             Assert.AreEqual(expectedCode, module.Content());
         }
@@ -279,7 +280,7 @@ End Sub";
             if (parser.State.Status >= ParserState.Error) { Assert.Inconclusive("Parser Error"); }
 
             var inspection = new VariableNotAssignedInspection(parser.State);
-            inspection.GetInspectionResults().Single(s => s.Target.IdentifierName == "var2").QuickFixes.First().Fix();
+            inspection.GetInspectionResults().Single(s => s.Target.Target is Declaration && ((Declaration)s.Target.Target).IdentifierName == "var2").QuickFixes.First().Fix();
 
             Assert.AreEqual(expectedCode, module.Content());
         }

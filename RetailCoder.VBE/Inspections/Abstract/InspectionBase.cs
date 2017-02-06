@@ -142,6 +142,15 @@ namespace Rubberduck.Inspections.Abstract
                 && ((IgnoreAnnotation)annotation).IsIgnored(inspectionName));
         }
 
+        // todo: make abstract
+        public virtual void Execute()
+        {
+            var results = GetInspectionResults();
+            foreach (var target in results.Select(result => result.Target))
+            {
+            }
+        }
+
         public int CompareTo(IInspection other)
         {
             return string.Compare(InspectionType + Name, other.InspectionType + other.Name, StringComparison.Ordinal);
@@ -150,6 +159,11 @@ namespace Rubberduck.Inspections.Abstract
         public int CompareTo(object obj)
         {
             return CompareTo(obj as IInspection);
+        }
+
+        public void AnnotateTarget(Declaration target, IInspectionResult result)
+        {
+            target.Annotate(result);
         }
     }
 }

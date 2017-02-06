@@ -483,7 +483,7 @@ End Sub";
             var inspection = new ParameterCanBeByValInspection(parser.State);
             var inspectionResults = inspection.GetInspectionResults();
             
-            Assert.AreEqual("a", inspectionResults.Single().Target.IdentifierName);
+            Assert.AreEqual("a", inspectionResults.Single().IdentifierName);
         }
 
         [TestMethod]
@@ -629,7 +629,7 @@ End Sub";
             var inspection = new ParameterCanBeByValInspection(parser.State);
             var inspectionResults = inspection.GetInspectionResults();
 
-            Assert.AreEqual("arg2", inspectionResults.Single().Target.IdentifierName);
+            Assert.AreEqual("arg2", inspectionResults.Single().IdentifierName);
         }
 
         [TestMethod]
