@@ -142,12 +142,25 @@ namespace Rubberduck.Inspections.Abstract
                 && ((IgnoreAnnotation)annotation).IsIgnored(inspectionName));
         }
 
-        // todo: make abstract
+        // todo: make abstract, have each inspection annotate their own stuff
         public virtual void Execute()
         {
             var results = GetInspectionResults();
-            foreach (var target in results.Select(result => result.Target))
+            foreach (var inspectionResult in results.Select(result => result))
             {
+                var declaration = inspectionResult.Target.Target as Declaration;
+                if (declaration != null)
+                {
+                    declaration.Annotate(inspectionResult);
+                    continue;
+                }
+
+                var reference = inspectionResult.Target.Target as IdentifierReference;
+                if (reference != null)
+                {
+                    reference.Annotate(inspectionResult);
+                    continue;
+                }
             }
         }
 

@@ -40,7 +40,7 @@ namespace Rubberduck.Inspections
             if (ParseTreeResults == null)
             {
                 Logger.Debug("Aborting GetInspectionResults because ParseTree results were not passed");
-                return new InspectionResultBase[] { };
+                return Enumerable.Empty<IInspectionResult>();
             }
 
             var userDeclarations = UserDeclarations.ToList();
@@ -66,6 +66,40 @@ namespace Rubberduck.Inspections
                                                          new QualifiedContext<VBAParser.ArgListContext>(result.QualifiedName,result.Context.GetChild<VBAParser.ArgListContext>(0)),
                                                          new QualifiedContext<VBAParser.SubStmtContext>(result.QualifiedName, (VBAParser.SubStmtContext)result.Context))
                                    );                   
+        }
+
+        public override void Execute()
+        {
+            if (ParseTreeResults == null)
+            {
+                Logger.Debug("Aborting GetInspectionResults because ParseTree results were not passed");
+                return;
+            }
+
+            var userDeclarations = UserDeclarations.ToList();
+            var builtinHandlers = State.DeclarationFinder.FindBuiltinEventHandlers().ToList();
+
+            var contextLookup = userDeclarations.Where(decl => decl.Context != null).ToDictionary(decl => decl.Context);
+
+            var ignored = new HashSet<Declaration>(State.DeclarationFinder.FindAllInterfaceMembers()
+                .Concat(State.DeclarationFinder.FindAllInterfaceImplementingMembers())
+                .Concat(builtinHandlers)
+                .Concat(userDeclarations.Where(item => item.IsWithEvents)));
+
+            var results = ParseTreeResults.Where(context => context.Context.Parent is VBAParser.SubStmtContext)
+                                   .Select(context => contextLookup[(VBAParser.SubStmtContext)context.Context.Parent])
+                                   .Where(procedure => !IsIgnoringInspectionResultFor(procedure, AnnotationName) 
+                                       && !ignored.Contains(procedure) 
+                                       && userDeclarations.Where(item => item.IsWithEvents)
+                                                          .All(withEvents => userDeclarations.FindEventProcedures(withEvents) == null) 
+                                                          && !builtinHandlers.Contains(procedure))
+                                   .Select(result => new ProcedureCanBeWrittenAsFunctionInspectionResult(new InspectionResultTarget(result.ParentDeclaration, result), result.IdentifierName));
+            foreach (IInspectionResult result in results)
+            {
+                var declaration = result.Target.Target as Declaration;
+                if (declaration == null) { continue; }
+                declaration.Annotate(result);
+            }
         }
 
         public class SingleByRefParamArgListListener : VBAParserBaseListener
