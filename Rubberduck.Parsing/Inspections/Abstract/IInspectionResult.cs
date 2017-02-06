@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Rubberduck.Parsing.Symbols;
-using Rubberduck.VBEditor;
 
 namespace Rubberduck.Parsing.Inspections.Abstract
 {
-    public interface IInspectionResult // todo: rename to IInspectionResult
+    public interface IInspectionResult
         : IComparable<IInspectionResult>, IComparable
     {
         string Description { get; }
