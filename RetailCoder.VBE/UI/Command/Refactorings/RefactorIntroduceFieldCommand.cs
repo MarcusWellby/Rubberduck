@@ -22,7 +22,7 @@ namespace Rubberduck.UI.Command.Refactorings
         {
             var pane = Vbe.ActiveCodePane;
             {
-                if (_state.Status != ParserState.Ready || pane.IsWrappingNullReference)
+                if (pane.IsWrappingNullReference || !_state.Status.IsResolvedOrReady())
                 {
                     return false;
                 }

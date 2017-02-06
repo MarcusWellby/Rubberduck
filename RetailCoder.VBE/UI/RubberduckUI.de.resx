@@ -1323,27 +1323,6 @@ Allen Sternguckern, Likern &amp; Followern, für das warme Kribbeln
   <data name="SourceControl_Delete" xml:space="preserve">
     <value>Löschen</value>
   </data>
-  <data name="ParserState_Error" xml:space="preserve">
-    <value>Fehler beim Parsen</value>
-  </data>
-  <data name="ParserState_LoadingReference" xml:space="preserve">
-    <value>Referenzen werden geladen</value>
-  </data>
-  <data name="ParserState_Parsed" xml:space="preserve">
-    <value>Fertig analysiert</value>
-  </data>
-  <data name="ParserState_Parsing" xml:space="preserve">
-    <value>Parsing …</value>
-  </data>
-  <data name="ParserState_Pending" xml:space="preserve">
-    <value>Wartend</value>
-  </data>
-  <data name="ParserState_Ready" xml:space="preserve">
-    <value>Fertig</value>
-  </data>
-  <data name="ParserState_ResolverError" xml:space="preserve">
-    <value>Fehler beim Auflösen</value>
-  </data>
   <data name="AboutWindow_BlogsHeader" xml:space="preserve">
     <value>Blogs:</value>
   </data>
@@ -1653,9 +1632,6 @@ Allen Sternguckern, Likern &amp; Followern, für das warme Kribbeln
   <data name="SourceControl_FileStatus_Removed" xml:space="preserve">
     <value>Gelöscht</value>
   </data>
-  <data name="ParserState_ResolvingReferences" xml:space="preserve">
-    <value>Löse Referenzen auf...</value>
-  </data>
   <data name="SourceControl_FileStatus_TypeChanged" xml:space="preserve">
     <value>Typ geändert</value>
   </data>
@@ -1676,9 +1652,6 @@ Allen Sternguckern, Likern &amp; Followern, für das warme Kribbeln
   </data>
   <data name="SourceControl_FileStatus_StagedTypeChange" xml:space="preserve">
     <value>Änderung der Vormerkung</value>
-  </data>
-  <data name="ParserState_ResolvingDeclarations" xml:space="preserve">
-    <value>Löse Deklarationen auf...</value>
   </data>
   <data name="SourceControl_FileStatus_Added" xml:space="preserve">
     <value>Hinzugefügt</value>

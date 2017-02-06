@@ -117,8 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CodeInspections_Inspecting" xml:space="preserve">
+  <data name="ParserState_Error" xml:space="preserve">
+    <value>Parse Error</value>
+  </data>
+  <data name="ParserState_Inspecting" xml:space="preserve">
     <value>Inspecting...</value>
+  </data>
+  <data name="ParserState_LoadingReference" xml:space="preserve">
+    <value>Loading references...</value>
+  </data>
+  <data name="ParserState_Parsed" xml:space="preserve">
+    <value>Parsed</value>
+  </data>
+  <data name="ParserState_Parsing" xml:space="preserve">
+    <value>Parsing...</value>
+  </data>
+  <data name="ParserState_Pending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="ParserState_Ready" xml:space="preserve">
+    <value>Ready</value>
+  </data>
+  <data name="ParserState_Resolved" xml:space="preserve">
+    <value>Resolved</value>
+  </data>
+  <data name="ParserState_ResolverError" xml:space="preserve">
+    <value>Resolver Error</value>
+  </data>
+  <data name="ParserState_ResolvingDeclarations" xml:space="preserve">
+    <value>Resolving declarations...</value>
+  </data>
+  <data name="ParserState_ResolvingReferences" xml:space="preserve">
+    <value>Resolving references...</value>
   </data>
   <data name="StringExtensionsArgumentException" xml:space="preserve">
     <value>Not {0} instances of '{1}' in '{2}'</value>

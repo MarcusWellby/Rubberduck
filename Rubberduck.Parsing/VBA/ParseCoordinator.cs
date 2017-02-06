@@ -28,10 +28,10 @@ namespace Rubberduck.Parsing.VBA
     {
         public RubberduckParserState State { get { return _state; } }
 
-        private const int _maxDegreeOfParserParallelism = -1;
-        private const int _maxDegreeOfDeclarationResolverParallelism = -1;
-        private const int _maxDegreeOfReferenceResolverParallelism = -1;
-        private const int _maxDegreeOfModuleStateChangeParallelism = -1;
+        private const int MaxDegreeOfParserParallelism = -1;
+        private const int MaxDegreeOfDeclarationResolverParallelism = -1;
+        private const int MaxDegreeOfReferenceResolverParallelism = -1;
+        private const int MaxDegreeOfModuleStateChangeParallelism = -1;
 
         private readonly IDictionary<IVBComponent, IDictionary<Tuple<string, DeclarationType>, Attributes>> _componentAttributes
             = new Dictionary<IVBComponent, IDictionary<Tuple<string, DeclarationType>, Attributes>>();
@@ -229,9 +229,11 @@ namespace Rubberduck.Parsing.VBA
 
         private void SetModuleStates(List<IVBComponent> components, ParserState parserState, CancellationToken token)
         {
-            var options = new ParallelOptions();
-            options.CancellationToken = token;
-            options.MaxDegreeOfParallelism = _maxDegreeOfModuleStateChangeParallelism;
+            var options = new ParallelOptions
+            {
+                CancellationToken = token,
+                MaxDegreeOfParallelism = MaxDegreeOfModuleStateChangeParallelism
+            };
 
             Parallel.ForEach(components, options, component => State.SetModuleState(component, parserState, token, null, false));
 
@@ -245,9 +247,11 @@ namespace Rubberduck.Parsing.VBA
         {
             SetModuleStates(components, ParserState.Parsing, token);
 
-            var options = new ParallelOptions();
-            options.CancellationToken = token;
-            options.MaxDegreeOfParallelism = _maxDegreeOfParserParallelism;
+            var options = new ParallelOptions
+            {
+                CancellationToken = token,
+                MaxDegreeOfParallelism = MaxDegreeOfParserParallelism
+            };
 
             try
             {
@@ -304,7 +308,7 @@ namespace Rubberduck.Parsing.VBA
 
         private void ProcessComponentParseResults(IVBComponent component, Task<ComponentParseTask.ParseCompletionArgs> finishedParseTask, CancellationToken token)
         {
-            if (finishedParseTask.IsFaulted)
+            if (finishedParseTask.IsFaulted && finishedParseTask.Exception != null)
             {
                 //In contrast to the situation in the success scenario, the overall parser state is reevaluated immediately.
                 State.SetModuleState(component, ParserState.Error, token, finishedParseTask.Exception.InnerException as SyntaxErrorException);
@@ -336,9 +340,11 @@ namespace Rubberduck.Parsing.VBA
         {
             SetModuleStates(components, ParserState.ResolvingDeclarations, token);
 
-            var options = new ParallelOptions();
-            options.CancellationToken = token;
-            options.MaxDegreeOfParallelism = _maxDegreeOfDeclarationResolverParallelism;
+            var options = new ParallelOptions
+            {
+                CancellationToken = token,
+                MaxDegreeOfParallelism = MaxDegreeOfDeclarationResolverParallelism
+            };
             try
             {
                 Parallel.ForEach(components,
@@ -441,9 +447,11 @@ namespace Rubberduck.Parsing.VBA
                 return;
             }
 
-            var options = new ParallelOptions();
-            options.CancellationToken = token;
-            options.MaxDegreeOfParallelism = _maxDegreeOfReferenceResolverParallelism;
+            var options = new ParallelOptions
+            {
+                CancellationToken = token,
+                MaxDegreeOfParallelism = MaxDegreeOfReferenceResolverParallelism
+            };
 
             if (token.IsCancellationRequested)
             {
@@ -453,7 +461,7 @@ namespace Rubberduck.Parsing.VBA
             try
             {
                 Parallel.For(0, State.ParseTrees.Count, options,
-                    (index) => ResolveReferences(State.DeclarationFinder, State.ParseTrees[index].Key, State.ParseTrees[index].Value, token)
+                    index => ResolveReferences(State.DeclarationFinder, State.ParseTrees[index].Key, State.ParseTrees[index].Value, token)
                 );
             }
             catch (AggregateException exception)
@@ -520,8 +528,8 @@ namespace Rubberduck.Parsing.VBA
                     Logger.Debug("Binding resolution done for component '{0}' in {1}ms (thread {2})", qualifiedName.Name,
                         watch.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId);
 
-                    //Evaluation of the overall status has to be defered to allow processing of undeclared variables before setting the ready state.
-                    State.SetModuleState(qualifiedName.Component, ParserState.Ready, token, null, false);
+                    //Evaluation of the overall status has to be defered to allow processing of undeclared variables before setting the resolved state.
+                    State.SetModuleState(qualifiedName.Component, ParserState.Resolved, token, null, false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -581,7 +589,7 @@ namespace Rubberduck.Parsing.VBA
         /// </summary>
         private bool ClearStateCashForRemovedComponents(List<IVBComponent> components)
         {
-            var removedModuledecalrations = RemovedModuleDeclarations(components);
+            var removedModuledecalrations = RemovedModuleDeclarations(components).ToArray();
             var componentRemoved = removedModuledecalrations.Any();
             foreach (var declaration in removedModuledecalrations)
             {
@@ -703,7 +711,7 @@ namespace Rubberduck.Parsing.VBA
 
                         if (!map.IsLoaded)
                         {
-                            State.OnStatusMessageUpdate(ParserState.LoadingReference.ToString());
+                            State.OnStatusMessageUpdate(ParsingText.ParserState_LoadingReference);
 
                             var localReference = reference;
 
@@ -809,7 +817,7 @@ namespace Rubberduck.Parsing.VBA
                 return;
             }
 
-            _state.OnStatusMessageUpdate(ParsingText.CodeInspections_Inspecting);
+            _state.OnStatusMessageUpdate(ParsingText.ParserState_Inspecting);
 
             var allIssues = new ConcurrentBag<IInspectionResult>();
             var inspectionTasks = _inspections.Where(inspection => inspection.Severity != CodeInspectionSeverity.DoNotShow)
@@ -828,14 +836,15 @@ namespace Rubberduck.Parsing.VBA
             token.ThrowIfCancellationRequested();
             try
             {
-                await Task.WhenAll(inspectionTasks);
+                await Task
+                    .WhenAll(inspectionTasks)
+                    .ContinueWith(t => Parallel.ForEach(allIssues, result => _state.AddInspectionResult(result)), token)
+                    .ContinueWith(t => _state.SetStatusAndFireStateChanged(this, ParserState.Ready), token);
             }
             catch (Exception exception)
             {
                 Logger.Error(exception);
             }
-
-            _state.OnStatusMessageUpdate(ParsingText.ResourceManager.GetString("ParserState_" + _state.Status)); // should be "Ready"
         }
 
         public void Dispose()

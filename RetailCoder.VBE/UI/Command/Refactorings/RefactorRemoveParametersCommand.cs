@@ -36,7 +36,7 @@ namespace Rubberduck.UI.Command.Refactorings
         {
             var pane = Vbe.ActiveCodePane;
             {
-                if (pane.IsWrappingNullReference || _state.Status != ParserState.Ready)
+                if (!_state.Status.IsResolvedOrReady() || pane.IsWrappingNullReference)
                 {
                     return false;
                 }

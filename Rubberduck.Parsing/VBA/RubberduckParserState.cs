@@ -305,6 +305,7 @@ namespace Rubberduck.Parsing.VBA
                 handler.Invoke(requestor, new ParserStateEventArgs(state));
             }
         }
+
         public event EventHandler<ParseProgressEventArgs> ModuleStateChanged;
 
         //Never spawn new threads changing module states in the handler! This will cause deadlocks. 
@@ -317,8 +318,7 @@ namespace Rubberduck.Parsing.VBA
                 handler.Invoke(this, args);
             }
         }
-
-
+        
         public void SetModuleState(IVBComponent component, ParserState state, SyntaxErrorException parserError = null, bool evaluateOverallState = true)
         {
             lock (component)

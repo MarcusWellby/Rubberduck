@@ -23,7 +23,7 @@ namespace Rubberduck.UI.Command.Refactorings
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            return _state.Status == ParserState.Ready;
+            return _state.Status.IsResolvedOrReady();
         }
 
         protected override void ExecuteImpl(object parameter)

@@ -89,7 +89,7 @@ End Property
         {
             var parser = MockParser.Create(vbe.Object, new RubberduckParserState(new Mock<ISinks>().Object));
             parser.Parse(new CancellationTokenSource());
-            if (parser.State.Status != ParserState.Ready)
+            if (!parser.State.Status.IsResolvedOrReady())
             {
                 Assert.Inconclusive("Parser state should be 'Ready', but returns '{0}'.", parser.State.Status);
             }

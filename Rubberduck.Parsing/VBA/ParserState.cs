@@ -34,6 +34,14 @@ namespace Rubberduck.Parsing.VBA
         /// <summary>
         /// Parser state is in sync with the actual code in the VBE.
         /// </summary>
+        Resolved,
+        /// <summary>
+        /// Parsing is completed, running code inspections.
+        /// </summary>
+        Inspecting,
+        /// <summary>
+        /// Parser state and inspection results are in sync with the actual code in the VBE.
+        /// </summary>
         Ready,
         /// <summary>
         /// Parsing could not be completed for one or more modules.
@@ -47,5 +55,19 @@ namespace Rubberduck.Parsing.VBA
         /// This component doesn't need a state.  Use for built-in declarations.
         /// </summary>
         None,
+    }
+
+    public static class ParserStateExtensions
+    {
+        /// <summary>
+        /// Returns true if resolver succeeded and inspections are running or have completed.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public static bool IsResolvedOrReady(this ParserState state)
+        {
+            return state == ParserState.Resolved
+                || state == ParserState.Ready;
+        }
     }
 }

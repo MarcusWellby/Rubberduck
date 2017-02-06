@@ -81,7 +81,7 @@ namespace Rubberduck.UI.UnitTesting
             TotalDuration = e.Duration;
         }
 
-        private static readonly ParserState[] AllowedRunStates = { ParserState.ResolvedDeclarations, ParserState.ResolvingReferences, ParserState.Ready };
+        private static readonly ParserState[] AllowedRunStates = { ParserState.ResolvedDeclarations, ParserState.ResolvingReferences, ParserState.Resolved, ParserState.Ready };
 
         private bool CanExecuteRunPassedTestsCommand(object obj)
         {

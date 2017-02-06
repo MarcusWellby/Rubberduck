@@ -5,13 +5,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using NLog;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
-using Rubberduck.Inspections.Resources;
 using Rubberduck.Inspections.Results;
 using Rubberduck.Parsing.Inspections;
 using Rubberduck.Parsing.Inspections.Abstract;
@@ -26,18 +24,18 @@ namespace Rubberduck.UI.Inspections
 {
     public sealed class InspectionResultsViewModel : ViewModelBase, INavigateSelection, IDisposable
     {
+        private readonly int AGGREGATION_THRESHOLD = 128;
+
         private readonly RubberduckParserState _state;
-        private readonly IInspector _inspector;
         private readonly IClipboardWriter _clipboard;
         private readonly IGeneralConfigService _configService;
         private readonly IOperatingSystem _operatingSystem;
 
-        public InspectionResultsViewModel(RubberduckParserState state, IInspector inspector, 
+        public InspectionResultsViewModel(RubberduckParserState state, 
             INavigateCommand navigateCommand, ReparseCommand reparseCommand,
             IClipboardWriter clipboard, IGeneralConfigService configService, IOperatingSystem operatingSystem)
         {
             _state = state;
-            _inspector = inspector;
             _navigateCommand = navigateCommand;
             _clipboard = clipboard;
             _configService = configService;
@@ -55,12 +53,7 @@ namespace Rubberduck.UI.Inspections
             _quickFixInProjectCommand = new DelegateCommand(LogManager.GetCurrentClassLogger(), ExecuteQuickFixInProjectCommand, _ => _state.Status == ParserState.Ready);
             _copyResultsCommand = new DelegateCommand(LogManager.GetCurrentClassLogger(), ExecuteCopyResultsCommand, CanExecuteCopyResultsCommand);
             _openSettingsCommand = new DelegateCommand(LogManager.GetCurrentClassLogger(), OpenSettings);
-
-            _configService.SettingsChanged += _configService_SettingsChanged;
             
-            // todo: remove I/O work in constructor
-            _runInspectionsOnReparse = _configService.LoadConfiguration().UserSettings.CodeInspectionSettings.RunInspectionsOnSuccessfulParse;
-
             _setInspectionTypeGroupingCommand = new DelegateCommand(LogManager.GetCurrentClassLogger(), param =>
             {
                 GroupByInspectionType = (bool)param;
@@ -74,15 +67,6 @@ namespace Rubberduck.UI.Inspections
             });
 
             _state.StateChanged += _state_StateChanged;
-        }
-
-        private void _configService_SettingsChanged(object sender, ConfigurationChangedEventArgs e)
-        {            
-            if (e.InspectionSettingsChanged)
-            {
-                RefreshInspections();
-            }
-            _runInspectionsOnReparse = e.RunInspectionsOnReparse;
         }
 
         private ObservableCollection<IInspectionResult> _results = new ObservableCollection<IInspectionResult>();
@@ -237,8 +221,7 @@ namespace Rubberduck.UI.Inspections
         private bool _isBusy;
         public bool IsBusy { get { return _isBusy; } set { _isBusy = value; OnPropertyChanged(); } }
 
-        private bool _runInspectionsOnReparse;
-        private void _state_StateChanged(object sender, EventArgs e)
+        private void _state_StateChanged(object sender, ParserStateEventArgs e)
         {
             if (_state.Status == ParserState.Error || _state.Status == ParserState.ResolverError)
             {
@@ -252,18 +235,20 @@ namespace Rubberduck.UI.Inspections
                 return;
             }
 
-            if (sender == this || _runInspectionsOnReparse)
-            {
-                RefreshInspections();
-            }
+            Debug.Assert(_state.Status == ParserState.Ready);
+            Refresh();
         }
 
-        private async void RefreshInspections()
+        private void Refresh()
         {
-            var stopwatch = Stopwatch.StartNew();
-            IsBusy = true;
+            var issuesByType = _state.InspectionResults.GroupBy(issue => issue.GetType())
+                    .ToDictionary(grouping => grouping.Key, grouping => grouping.ToList());
+            var results = issuesByType.Where(kv => kv.Value.Count <= AGGREGATION_THRESHOLD)
+                .SelectMany(kv => kv.Value)
+                .Union(issuesByType.Where(kv => kv.Value.Count > AGGREGATION_THRESHOLD)
+                .Select(kv => new AggregateInspectionResult(kv.Value.OrderBy(i => i.QualifiedSelection).First(), kv.Value.Count)))
+                .ToList();
 
-            var results = (await _inspector.FindIssuesAsync(_state, CancellationToken.None)).ToList();
             if (GroupByInspectionType)
             {
                 results = results.OrderBy(o => o.Inspection.InspectionType)
@@ -289,9 +274,6 @@ namespace Rubberduck.UI.Inspections
                 IsBusy = false;
                 SelectedItem = null;
             });
-
-            stopwatch.Stop();
-            LogManager.GetCurrentClassLogger().Trace("Inspections loaded in {0}ms", stopwatch.ElapsedMilliseconds);
         }
 
         private void ExecuteQuickFixes(IEnumerable<IQuickFix> quickFixes)
@@ -458,16 +440,6 @@ namespace Rubberduck.UI.Inspections
             if (_state != null)
             {
                 _state.StateChanged -= _state_StateChanged;
-            }
-
-            if (_configService != null)
-            {
-                _configService.SettingsChanged -= _configService_SettingsChanged;
-            }
-
-            if (_inspector != null)
-            {
-                _inspector.Dispose();
             }
         }
     }

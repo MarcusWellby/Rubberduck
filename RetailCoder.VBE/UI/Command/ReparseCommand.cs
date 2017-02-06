@@ -25,9 +25,9 @@ namespace Rubberduck.UI.Command
         protected override bool CanExecuteImpl(object parameter)
         {
             return _state.Status == ParserState.Pending
-                   || _state.Status == ParserState.Ready
-                   || _state.Status == ParserState.Error
-                   || _state.Status == ParserState.ResolverError;
+                || _state.Status == ParserState.Ready
+                || _state.Status == ParserState.Error
+                || _state.Status == ParserState.ResolverError;
         }
 
         protected override void ExecuteImpl(object parameter)

@@ -45,7 +45,10 @@ namespace Rubberduck.UI.Command
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            if (_state.Status != ParserState.Ready || _vbe.ActiveCodePane == null) { return false; }
+            if (_state.Status.IsResolvedOrReady() || _vbe.ActiveCodePane == null)
+            {
+                return false;
+            }
 
             var testModules = _state.AllUserDeclarations.Where(d =>
                         d.DeclarationType == DeclarationType.ProceduralModule &&

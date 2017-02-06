@@ -135,6 +135,16 @@
     <Compile Include="Inspections\Abstract\IQuickFix.cs" />
     <Compile Include="Inspections\CodeInspectionSeverity.cs" />
     <Compile Include="Inspections\CodeInspectionType.cs" />
+    <Compile Include="ParsingText.de.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParsingText.de.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ParsingText.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ParsingText.fr.resx</DependentUpon>
+    </Compile>
     <Compile Include="Preprocessing\IVBAPreprocessor.cs" />
     <Compile Include="Preprocessing\VBAConditionalCompilationParser.cs" />
     <Compile Include="Preprocessing\VBAConditionalCompilationParserBaseListener.cs" />
@@ -345,10 +355,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ParsingText.de.resx" />
-    <EmbeddedResource Include="ParsingText.fr.resx" />
+    <EmbeddedResource Include="ParsingText.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ParsingText.de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParsingText.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ParsingText.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="ParsingText.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ParsingText.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -54,7 +54,7 @@ namespace Rubberduck.UI.Command
 
         private void _state_StateChanged(object sender, ParserStateEventArgs e)
         {
-            if (e.State != ParserState.Ready) { return; }
+            if (e.State.IsResolvedOrReady()) { return; }
 
             if (_viewModel == null) { return; }
 
@@ -90,7 +90,7 @@ namespace Rubberduck.UI.Command
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            if (_vbe.ActiveCodePane == null || _state.Status != ParserState.Ready)
+            if (_vbe.ActiveCodePane == null || _state.Status.IsResolvedOrReady())
             {
                 return false;
             }
@@ -103,7 +103,7 @@ namespace Rubberduck.UI.Command
 
         protected override void ExecuteImpl(object parameter)
         {
-            if (_state.Status != ParserState.Ready)
+            if (_state.Status.IsResolvedOrReady())
             {
                 return;
             }

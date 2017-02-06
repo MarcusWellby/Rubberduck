@@ -1372,30 +1372,6 @@ All our stargazers, likers &amp; followers, for the warm fuzzies
   <data name="SourceControl_Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="ParserState_Error" xml:space="preserve">
-    <value>Parse Error</value>
-  </data>
-  <data name="ParserState_LoadingReference" xml:space="preserve">
-    <value>Loading references</value>
-  </data>
-  <data name="ParserState_Parsed" xml:space="preserve">
-    <value>Parsed</value>
-  </data>
-  <data name="ParserState_Parsing" xml:space="preserve">
-    <value>Parsing...</value>
-  </data>
-  <data name="ParserState_Pending" xml:space="preserve">
-    <value>Pending</value>
-  </data>
-  <data name="ParserState_Ready" xml:space="preserve">
-    <value>Ready</value>
-  </data>
-  <data name="ParserState_ResolverError" xml:space="preserve">
-    <value>Resolver Error</value>
-  </data>
-  <data name="ParserState_ResolvingDeclarations" xml:space="preserve">
-    <value>Resolving declarations...</value>
-  </data>
   <data name="AboutWindow_BlogsHeader" xml:space="preserve">
     <value>Blogs:</value>
   </data>
@@ -1632,9 +1608,6 @@ All our stargazers, likers &amp; followers, for the warm fuzzies
   </data>
   <data name="SourceControl_NoActiveProject" xml:space="preserve">
     <value>No active project</value>
-  </data>
-  <data name="ParserState_ResolvingReferences" xml:space="preserve">
-    <value>Resolving references...</value>
   </data>
   <data name="CodeExplorer_OpenProjectProperties" xml:space="preserve">
     <value>Project properties</value>

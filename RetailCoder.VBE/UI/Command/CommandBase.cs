@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
 using NLog;
+using Rubberduck.Parsing.VBA;
 using Rubberduck.Settings;
 
 namespace Rubberduck.UI.Command

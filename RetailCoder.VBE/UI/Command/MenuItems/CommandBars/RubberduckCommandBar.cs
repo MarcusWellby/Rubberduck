@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Rubberduck.Parsing;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.Parsing.VBA;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
@@ -19,7 +20,7 @@ namespace Rubberduck.UI.Command.MenuItems.CommandBars
 
         public void SetStatusLabelCaption(ParserState state, int? errorCount = null)
         {
-            var caption = RubberduckUI.ResourceManager.GetString("ParserState_" + state, Settings.Settings.Culture);
+            var caption = ParsingText.ResourceManager.GetString("ParserState_" + state, Settings.Settings.Culture);
             SetStatusLabelCaption(caption, errorCount);
         }
 

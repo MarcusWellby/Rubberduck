@@ -26,7 +26,7 @@ namespace Rubberduck.UI.CodeExplorer.Commands
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            return _state.Status == ParserState.Ready && parameter is ICodeExplorerDeclarationViewModel;
+            return _state.Status.IsResolvedOrReady() && parameter is ICodeExplorerDeclarationViewModel;
         }
 
         protected override void ExecuteImpl(object parameter)

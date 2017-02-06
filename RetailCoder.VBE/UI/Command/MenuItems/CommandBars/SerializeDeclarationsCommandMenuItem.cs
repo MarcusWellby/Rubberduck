@@ -32,7 +32,7 @@ namespace Rubberduck.UI.Command.MenuItems.CommandBars
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            return _state.Status == ParserState.Ready;
+            return _state.Status.IsResolvedOrReady();
         }
 
         private static readonly string BasePath =

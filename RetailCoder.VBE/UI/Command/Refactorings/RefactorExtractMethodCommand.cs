@@ -30,7 +30,7 @@ namespace Rubberduck.UI.Command.Refactorings
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            if (Vbe.ActiveCodePane == null || _state.Status != ParserState.Ready)
+            if (Vbe.ActiveCodePane == null || _state.Status.IsResolvedOrReady())
             {
                 return false;
             }

@@ -117,8 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CodeInspections_Inspecting" xml:space="preserve">
+  <data name="ParserState_Error" xml:space="preserve">
+    <value>Fehler beim Parsen</value>
+  </data>
+  <data name="ParserState_Inspecting" xml:space="preserve">
     <value>Inspiziere...</value>
+  </data>
+  <data name="ParserState_LoadingReference" xml:space="preserve">
+    <value>Referenzen werden geladen...</value>
+  </data>
+  <data name="ParserState_Parsed" xml:space="preserve">
+    <value>Fertig analysiert</value>
+  </data>
+  <data name="ParserState_Parsing" xml:space="preserve">
+    <value>Parsing …</value>
+  </data>
+  <data name="ParserState_Pending" xml:space="preserve">
+    <value>Wartend</value>
+  </data>
+  <data name="ParserState_Ready" xml:space="preserve">
+    <value>Fertig</value>
+  </data>
+  <data name="ParserState_Resolved" xml:space="preserve">
+    <value>Auflöst</value>
+  </data>
+  <data name="ParserState_ResolverError" xml:space="preserve">
+    <value>Fehler beim Auflösen</value>
+  </data>
+  <data name="ParserState_ResolvingDeclarations" xml:space="preserve">
+    <value>Löse Deklarationen auf...</value>
+  </data>
+  <data name="ParserState_ResolvingReferences" xml:space="preserve">
+    <value>Löse Referenzen auf...</value>
   </data>
   <data name="StringExtensionsArgumentException" xml:space="preserve">
     <value>Es fehlen {0} Instanzen von '{1}' in '{2}'</value>

@@ -69,11 +69,11 @@ namespace Rubberduck
         private void State_StatusMessageUpdate(object sender, RubberduckStatusMessageEventArgs e)
         {
             var message = e.Message;
-            if (message == ParserState.LoadingReference.ToString())
-            {
-                // note: ugly hack to enable Rubberduck.Parsing assembly to do this
-                message = RubberduckUI.ParserState_LoadingReference;
-            }
+            //if (message == ParserState.LoadingReference.ToString())
+            //{
+            //    // note: ugly hack to enable Rubberduck.Parsing assembly to do this
+            //    message = ParsingText.ParserState_LoadingReference;
+            //}
 
             _stateBar.SetStatusLabelCaption(message, _parser.State.ModuleExceptions.Count);
         }

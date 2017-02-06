@@ -1038,9 +1038,6 @@ Attention: les valeurs personnalisées seront perdues.    Le fichier original se
   <data name="SourceControl_DeleteBranch" xml:space="preserve">
     <value>Supprimer une branche</value>
   </data>
-  <data name="ParserState_ResolverError" xml:space="preserve">
-    <value>Erreur de résolution</value>
-  </data>
   <data name="UnitTestSettings_IncludeTestMethodInitCleanupPrompt" xml:space="preserve">
     <value>Initialisation et nettoyage des méthodes de test</value>
   </data>
@@ -1052,12 +1049,6 @@ Attention: les valeurs personnalisées seront perdues.    Le fichier original se
   </data>
   <data name="IndenterSettings_EnableOptionsLabel" xml:space="preserve">
     <value>Activer les options</value>
-  </data>
-  <data name="ParserState_Error" xml:space="preserve">
-    <value>Erreur d'analyse</value>
-  </data>
-  <data name="ParserState_LoadingReference" xml:space="preserve">
-    <value>Chargement des références</value>
   </data>
   <data name="SourceControl_LocalDirectoryLabel" xml:space="preserve">
     <value>Répertoire local:</value>
@@ -1116,9 +1107,6 @@ Attention: les valeurs personnalisées seront perdues.    Le fichier original se
   <data name="GroupingGrid_GroupingStyle" xml:space="preserve">
     <value>Regroupement</value>
   </data>
-  <data name="ParserState_Parsed" xml:space="preserve">
-    <value>Analyse complétée</value>
-  </data>
   <data name="UnitTestSettings_LateBinding" xml:space="preserve">
     <value>Indirecte (late binding)</value>
   </data>
@@ -1157,9 +1145,6 @@ Attention: les valeurs personnalisées seront perdues.    Le fichier original se
   </data>
   <data name="IndenterSettings_EnableUndo" xml:space="preserve">
     <value>Activer l'annulation</value>
-  </data>
-  <data name="ParserState_Ready" xml:space="preserve">
-    <value>Prêt</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
@@ -1220,9 +1205,6 @@ Attention: les valeurs personnalisées seront perdues.    Le fichier original se
   </data>
   <data name="SettingsCaption_IndenterSettings" xml:space="preserve">
     <value>Indentation</value>
-  </data>
-  <data name="ParserState_Pending" xml:space="preserve">
-    <value>En attente</value>
   </data>
   <data name="GeneralSettings_HotkeyCtrl" xml:space="preserve">
     <value>Ctrl</value>
@@ -1420,9 +1402,6 @@ Icônes "Fugue" par Yusuke Kamiyamane</value>
   </data>
   <data name="SettingsCaption_InspectionSettings" xml:space="preserve">
     <value>Inspections</value>
-  </data>
-  <data name="ParserState_Parsing" xml:space="preserve">
-    <value>Analyse...</value>
   </data>
   <data name="SourceControl_UndoChangesButton" xml:space="preserve">
     <value>Annuler</value>
@@ -1776,9 +1755,6 @@ End Sub</value>
   <data name="SourceControl_FileStatus_Removed" xml:space="preserve">
     <value>Supprimé</value>
   </data>
-  <data name="ParserState_ResolvingReferences" xml:space="preserve">
-    <value>Résolution des références...</value>
-  </data>
   <data name="SourceControl_FileStatus_TypeChanged" xml:space="preserve">
     <value>Type modifié</value>
   </data>
@@ -1811,9 +1787,6 @@ End Sub</value>
   </data>
   <data name="RegexAssistant_RegexPatternLabel" xml:space="preserve">
     <value>Expression</value>
-  </data>
-  <data name="ParserState_ResolvingDeclarations" xml:space="preserve">
-    <value>Résolusion des déclarations...</value>
   </data>
   <data name="SourceControl_FileStatus_Added" xml:space="preserve">
     <value>Ajouté</value>

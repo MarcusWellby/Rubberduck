@@ -30,7 +30,7 @@ namespace Rubberduck.UI.Command
             _presenter = presenter;
         }
 
-        private static readonly ParserState[] AllowedRunStates = { ParserState.ResolvedDeclarations, ParserState.ResolvingReferences, ParserState.Ready };
+        private static readonly ParserState[] AllowedRunStates = { ParserState.ResolvedDeclarations, ParserState.ResolvingReferences, ParserState.Resolved, ParserState.Ready };
 
         protected override bool CanExecuteImpl(object parameter)
         {

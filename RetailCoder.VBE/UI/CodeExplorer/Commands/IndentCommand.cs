@@ -42,7 +42,7 @@ namespace Rubberduck.UI.CodeExplorer.Commands
 
             if (parameter is CodeExplorerProjectViewModel)
             {
-                if (_state.Status != ParserState.Ready)
+                if (!_state.Status.IsResolvedOrReady())
                 {
                     return false;
                 }
@@ -56,7 +56,7 @@ namespace Rubberduck.UI.CodeExplorer.Commands
 
             if (parameter is CodeExplorerCustomFolderViewModel)
             {
-                if (_state.Status != ParserState.Ready)
+                if (!_state.Status.IsResolvedOrReady())
                 {
                     return false;
                 }
@@ -67,7 +67,7 @@ namespace Rubberduck.UI.CodeExplorer.Commands
                         .Any(d => d.Annotations.All(a => a.AnnotationType != AnnotationType.NoIndent));
             }
 
-            return _state.Status == ParserState.Ready;
+            return _state.Status.IsResolvedOrReady();
         }
 
         protected override void ExecuteImpl(object parameter)
