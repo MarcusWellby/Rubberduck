@@ -93,7 +93,7 @@ namespace Rubberduck.Inspections
                                        && userDeclarations.Where(item => item.IsWithEvents)
                                                           .All(withEvents => userDeclarations.FindEventProcedures(withEvents) == null) 
                                                           && !builtinHandlers.Contains(procedure))
-                                   .Select(result => new ProcedureCanBeWrittenAsFunctionInspectionResult(new InspectionResultTarget(result.ParentDeclaration, result), result.IdentifierName));
+                                   .Select(result => new ProcedureCanBeWrittenAsFunctionInspectionResult(this, new InspectionResultTarget(result.ParentDeclaration, result), result.IdentifierName));
             foreach (IInspectionResult result in results)
             {
                 var declaration = result.Target.Target as Declaration;

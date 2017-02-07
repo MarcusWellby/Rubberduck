@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using LibGit2Sharp;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Inspections.Results;
@@ -9,6 +10,7 @@ using Rubberduck.Parsing.VBA;
 using Rubberduck.Parsing.Grammar;
 using Rubberduck.Parsing.Inspections;
 using Rubberduck.Parsing.Inspections.Abstract;
+using Rubberduck.Parsing.Symbols;
 
 namespace Rubberduck.Inspections
 {
@@ -35,7 +37,7 @@ namespace Rubberduck.Inspections
         {
             if (ParseTreeResults == null)
             {
-                return new InspectionResultBase[] { };
+                return Enumerable.Empty<IInspectionResult>();
             }
 
             return (from result in ParseTreeResults
@@ -44,6 +46,27 @@ namespace Rubberduck.Inspections
                        || context.annotationName().GetText() == AnnotationType.Folder.ToString() 
                     where context.annotationArgList() == null 
                     select new MissingAnnotationArgumentInspectionResult(this, result)).ToList();
+        }
+
+        public override void Execute()
+        {
+            if (ParseTreeResults == null) { return; }
+
+            var issues = (
+                from result in ParseTreeResults
+                let module = State.DeclarationFinder.UserDeclarations(DeclarationType.Module)
+                                                    .SingleOrDefault(m => m.QualifiedName == result.MemberName)
+                let context = result.Context
+                let name = context.annotationName().GetText()
+                where name == AnnotationType.Ignore.ToString()
+                   || name == AnnotationType.Folder.ToString()
+                where context.annotationArgList() == null
+                select new MissingAnnotationArgumentInspectionResult(this, new InspectionResultTarget(module, result.Context), name));
+
+            foreach (var issue in issues)
+            {
+                ((VBAParser.AnnotationContext)issue.Context).Annotate(issue);
+            }
         }
 
         public class InvalidAnnotationStatementListener : VBAParserBaseListener
