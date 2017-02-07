@@ -6,7 +6,6 @@ using Rubberduck.Parsing.Inspections;
 using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.Parsing.VBA;
-using Rubberduck.VBEditor;
 using InspectionBase = Rubberduck.Inspections.Abstract.InspectionBase;
 
 namespace Rubberduck.Inspections
@@ -38,8 +37,35 @@ namespace Rubberduck.Inspections
 
             return (from usage in usages
                 from reference in usage.References.Where(use => !IsIgnoringInspectionResultFor(use, AnnotationName))
-                let qualifiedSelection = new QualifiedSelection(reference.QualifiedModuleName, reference.Selection)
-                select new ApplicationWorksheetFunctionInspectionResult(this, qualifiedSelection, usage.IdentifierName));
+                let module = reference.ParentScoping.ParentDeclaration
+                select new ApplicationWorksheetFunctionInspectionResult(this, new InspectionResultTarget(module, reference), usage.IdentifierName));
+        }
+
+        public override void Execute()
+        {
+            var excel = State.DeclarationFinder.Projects.SingleOrDefault(item => item.IsBuiltIn && item.IdentifierName == "Excel");
+            if (excel == null) { return ; }
+
+            var members = new HashSet<string>(BuiltInDeclarations.Where(decl => decl.DeclarationType == DeclarationType.Function &&
+                                                                        decl.ParentDeclaration != null &&
+                                                                        decl.ParentDeclaration.ComponentName.Equals("WorksheetFunction"))
+                                                                 .Select(decl => decl.IdentifierName));
+
+            var usages = BuiltInDeclarations.Where(decl => decl.References.Any() &&
+                                                           decl.ProjectName.Equals("Excel") &&
+                                                           decl.ComponentName.Equals("Application") &&
+                                                           members.Contains(decl.IdentifierName));
+
+            var issues = (
+                from usage in usages
+                from reference in usage.References.Where(use => !IsIgnoringInspectionResultFor(use, AnnotationName))
+                select reference);
+
+            foreach (var issue in issues)
+            {
+                var module = issue.ParentScoping.ParentDeclaration;
+                issue.Annotate(new ApplicationWorksheetFunctionInspectionResult(this, new InspectionResultTarget(module, issue), issue.IdentifierName));
+            }
         }
     }
 }
