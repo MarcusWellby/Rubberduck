@@ -12,7 +12,7 @@ using Rubberduck.Parsing.Inspections.Abstract;
 namespace Rubberduck.Parsing.Symbols
 {
     [DebuggerDisplay("({IdentifierName}) IsAss:{IsAssignment} | {Selection} ")]
-    public class IdentifierReference : IEquatable<IdentifierReference>
+    public class IdentifierReference : IEquatable<IdentifierReference>, IInspectable
     {
         public IdentifierReference(
             QualifiedModuleName qualifiedName, 
@@ -47,7 +47,7 @@ namespace Rubberduck.Parsing.Symbols
         private readonly Selection _selection;
         public Selection Selection { get { return _selection; } }
 
-        private readonly ConcurrentBag<IInspectionResult> _inspectionResults
+        private ConcurrentBag<IInspectionResult> _inspectionResults
             = new ConcurrentBag<IInspectionResult>();
 
         public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectionResults; } }
@@ -55,6 +55,11 @@ namespace Rubberduck.Parsing.Symbols
         public void Annotate(IInspectionResult inspectionResult)
         {
             _inspectionResults.Add(inspectionResult);
+        }
+
+        public void ClearInspectionResults()
+        {
+            _inspectionResults = new ConcurrentBag<IInspectionResult>();
         }
 
         private readonly Declaration _parentScopingDeclaration;

@@ -18,7 +18,7 @@ namespace Rubberduck.Parsing.Symbols
     /// Defines a declared identifier.
     /// </summary>
     [DebuggerDisplay("({DeclarationType}) {Accessibility} {IdentifierName} As {AsTypeName} | {Selection}")]
-    public class Declaration : IEquatable<Declaration>
+    public class Declaration : IEquatable<Declaration>, IInspectable
     {
         public static readonly string[] BaseTypes =
         {
@@ -394,7 +394,7 @@ namespace Rubberduck.Parsing.Symbols
                     annotations));
         }
 
-        private readonly ConcurrentBag<IInspectionResult> _inspectionResults
+        private ConcurrentBag<IInspectionResult> _inspectionResults
             = new ConcurrentBag<IInspectionResult>();
 
         public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectionResults; } }
@@ -402,6 +402,11 @@ namespace Rubberduck.Parsing.Symbols
         public void Annotate(IInspectionResult inspectionResult)
         {
             _inspectionResults.Add(inspectionResult);
+        }
+
+        public void ClearInspectionResults()
+        {
+            _inspectionResults = new ConcurrentBag<IInspectionResult>();
         }
 
         private readonly Selection _selection;
