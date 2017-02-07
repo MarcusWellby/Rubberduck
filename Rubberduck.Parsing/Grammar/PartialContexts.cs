@@ -20,5 +20,21 @@ namespace Rubberduck.Parsing.Grammar
             public void Annotate(IInspectionResult result) { _inspectable.Annotate(result); }
             public void ClearInspectionResults() { _inspectable.ClearInspectionResults(); }
         }
+
+        public partial class OptionBaseStmtContext : IInspectable
+        {
+            private readonly InspectableContext _inspectable = new InspectableContext();
+            public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectable.InspectionResults; } }
+            public void Annotate(IInspectionResult result) { _inspectable.Annotate(result); }
+            public void ClearInspectionResults() { _inspectable.ClearInspectionResults(); }
+        }
+
+        public partial class OptionCompareStmtContext : IInspectable
+        {
+            private readonly InspectableContext _inspectable = new InspectableContext();
+            public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectable.InspectionResults; } }
+            public void Annotate(IInspectionResult result) { _inspectable.Annotate(result); }
+            public void ClearInspectionResults() { _inspectable.ClearInspectionResults(); }
+        }
     }
 }
