@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Parsing.Grammar
@@ -9,27 +7,18 @@ namespace Rubberduck.Parsing.Grammar
     {
         public partial class AnnotationContext : IInspectable
         {
-            private ConcurrentBag<IInspectionResult> _results = 
-                new ConcurrentBag<IInspectionResult>();
+            private readonly InspectableContext _inspectable = new InspectableContext();
+            public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectable.InspectionResults; } }
+            public void Annotate(IInspectionResult result) { _inspectable.Annotate(result); }
+            public void ClearInspectionResults() { _inspectable.ClearInspectionResults(); }
+        }
 
-            public IEnumerable<IInspectionResult> InspectionResults { get { return _results; } }
-
-            public void Annotate(IInspectionResult result)
-            {
-                try
-                {
-                    _results.Add(result);
-                }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.Assert(false, e.Message, e.ToString());
-                }
-            }
-
-            public void ClearInspectionResults()
-            {
-                _results = new ConcurrentBag<IInspectionResult>();
-            }
+        public partial class IdentifierContext : IInspectable
+        {
+            private readonly InspectableContext _inspectable = new InspectableContext();
+            public IEnumerable<IInspectionResult> InspectionResults { get { return _inspectable.InspectionResults; } }
+            public void Annotate(IInspectionResult result) { _inspectable.Annotate(result); }
+            public void ClearInspectionResults() { _inspectable.ClearInspectionResults(); }
         }
     }
 }

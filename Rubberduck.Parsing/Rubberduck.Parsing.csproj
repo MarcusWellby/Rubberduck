@@ -122,6 +122,7 @@
     <Compile Include="Emitter.cs" />
     <Compile Include="Grammar\Annotations.cs" />
     <Compile Include="Grammar\IInspectable.cs" />
+    <Compile Include="Grammar\InspectableContext.cs" />
     <Compile Include="Grammar\PartialContexts.cs" />
     <Compile Include="Grammar\Tokens.cs" />
     <Compile Include="Grammar\VBALexer.cs" />
