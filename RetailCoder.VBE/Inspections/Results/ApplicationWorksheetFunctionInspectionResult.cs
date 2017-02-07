@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
@@ -14,6 +15,10 @@ namespace Rubberduck.Inspections.Results
         private readonly string _memberName;
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public ApplicationWorksheetFunctionInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public ApplicationWorksheetFunctionInspectionResult(IInspection inspection, QualifiedSelection qualifiedSelection, string memberName)
             : base(inspection, qualifiedSelection.QualifiedName)
         {

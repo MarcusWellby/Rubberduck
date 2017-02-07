@@ -1,3 +1,4 @@
+using System;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing.Inspections.Abstract;
@@ -10,6 +11,10 @@ namespace Rubberduck.Inspections.Results
         private readonly string _assignedIdentifier;
         private readonly string _defaultMemberOf;
 
+        public ImplicitDefaultMemberAssignmentInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public ImplicitDefaultMemberAssignmentInspectionResult(IInspection inspection, IdentifierReference reference)
             :base(inspection, reference.QualifiedModuleName, reference.Context)
         {

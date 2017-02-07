@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
@@ -16,6 +17,10 @@ namespace Rubberduck.Inspections.Results
         private readonly RubberduckParserState _state;
         private readonly IIndenter _indenter;
 
+        public EncapsulatePublicFieldInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public EncapsulatePublicFieldInspectionResult(IInspection inspection, Declaration target, RubberduckParserState state, IIndenter indenter)
             : base(inspection, target)
         {

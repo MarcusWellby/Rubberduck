@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
@@ -12,6 +13,10 @@ namespace Rubberduck.Inspections.Results
     {
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public ModuleScopeDimKeywordInspectionResult(IInspection inspection, InspectionResultTarget target)
+            : base(inspection, target) { }
+
+        [Obsolete]
         public ModuleScopeDimKeywordInspectionResult(IInspection inspection, Declaration target) 
             : base(inspection, target)
         { }

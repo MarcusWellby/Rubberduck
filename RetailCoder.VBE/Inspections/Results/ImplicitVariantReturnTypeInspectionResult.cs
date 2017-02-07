@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Antlr4.Runtime;
 using Rubberduck.Inspections.Abstract;
@@ -15,6 +16,10 @@ namespace Rubberduck.Inspections.Results
         private readonly string _identifierName;
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public ImplicitVariantReturnTypeInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public ImplicitVariantReturnTypeInspectionResult(IInspection inspection, string identifierName, QualifiedContext<ParserRuleContext> qualifiedContext, Declaration target)
             : base(inspection, qualifiedContext.ModuleName, qualifiedContext.Context, target)
         {

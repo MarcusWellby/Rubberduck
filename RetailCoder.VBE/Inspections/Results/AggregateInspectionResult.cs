@@ -13,7 +13,7 @@ namespace Rubberduck.Inspections.Results
         private readonly int _count;
 
         public AggregateInspectionResult(IInspectionResult firstResult, int count)
-            : base(firstResult.Target, firstResult.IdentifierName)
+            : base(firstResult.Inspection, firstResult.Target, firstResult.IdentifierName)
         {
             _result = firstResult;
             _count = count;

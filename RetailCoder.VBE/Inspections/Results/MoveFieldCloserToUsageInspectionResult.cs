@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Castle.DynamicProxy.Generators;
+﻿using System;
+using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
@@ -17,6 +17,10 @@ namespace Rubberduck.Inspections.Results
         private readonly IMessageBox _messageBox;
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public MoveFieldCloserToUsageInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public MoveFieldCloserToUsageInspectionResult(IInspection inspection, Declaration target, RubberduckParserState state, IMessageBox messageBox)
             : base(inspection, target)
         {

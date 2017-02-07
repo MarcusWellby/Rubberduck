@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
@@ -11,6 +12,10 @@ namespace Rubberduck.Inspections.Results
     {
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public OptionBaseInspectionResult(IInspection inspection, InspectionResultTarget target)
+            : base(inspection, target) { }
+
+        [Obsolete]
         public OptionBaseInspectionResult(IInspection inspection, Declaration target)
             : base(inspection, target)
         { }

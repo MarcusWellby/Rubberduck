@@ -13,13 +13,16 @@ using Rubberduck.VBEditor;
 
 namespace Rubberduck.Inspections.Abstract
 {
-    public abstract class InspectionResultBase : INavigateSource
-        , IInspectionResult, ICopyFormatter
+    public abstract class InspectionResultBase : INavigateSource, IInspectionResult, ICopyFormatter
     {
         private readonly InspectionResultTarget _newTarget;
 
-        protected InspectionResultBase(InspectionResultTarget target, string identifierName)
+        protected InspectionResultBase(IInspection inspection, InspectionResultTarget target)
+            : this(inspection, target, string.Empty) { }
+
+        protected InspectionResultBase(IInspection inspection, InspectionResultTarget target, string identifierName)
         {
+            _inspection = inspection;
             _newTarget = target;
             _identifierName = identifierName;
         }

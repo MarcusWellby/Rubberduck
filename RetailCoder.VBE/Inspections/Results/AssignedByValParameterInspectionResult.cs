@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
@@ -12,7 +13,12 @@ namespace Rubberduck.Inspections.Results
     {
         private IEnumerable<QuickFixBase> _quickFixes;
 
-        public AssignedByValParameterInspectionResult(IInspection inspection, Declaration target) : base(inspection, target) { }
+        public AssignedByValParameterInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
+        public AssignedByValParameterInspectionResult(IInspection inspection, Declaration target) 
+            : base(inspection, target) { }
 
         public override string Description
         {

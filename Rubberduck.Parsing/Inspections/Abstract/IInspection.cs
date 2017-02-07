@@ -12,8 +12,12 @@ namespace Rubberduck.Parsing.Inspections.Abstract
         /// Runs code inspection and returns inspection results.
         /// </summary>
         /// <returns>Returns inspection results, if any.</returns>
+        [Obsolete("Use the Execute() method instead.")]
         IEnumerable<IInspectionResult> GetInspectionResults();
 
+        /// <summary>
+        /// Runs code inspection and annotates targets.
+        /// </summary>
         void Execute();
 
         /// <summary>

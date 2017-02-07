@@ -14,6 +14,10 @@ namespace Rubberduck.Inspections.Results
     {
         private readonly Lazy<IEnumerable<IQuickFix>> _quickFixes;
 
+        public ImplicitByRefParameterInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public ImplicitByRefParameterInspectionResult(IInspection inspection, Declaration declaration)
             : base(inspection, declaration)
         {

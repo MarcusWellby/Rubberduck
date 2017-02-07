@@ -21,13 +21,11 @@ namespace Rubberduck.Inspections.Results
        private readonly QualifiedContext<VBAParser.SubStmtContext> _subStmtQualifiedContext;
        private readonly RubberduckParserState _state;
 
-        public ProcedureCanBeWrittenAsFunctionInspectionResult(InspectionResultTarget target, string name)
-            : base(target, name)
-        {
-            
-        }
+        public ProcedureCanBeWrittenAsFunctionInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
 
-       public ProcedureCanBeWrittenAsFunctionInspectionResult(IInspection inspection, RubberduckParserState state, 
+        [Obsolete]
+        public ProcedureCanBeWrittenAsFunctionInspectionResult(IInspection inspection, RubberduckParserState state, 
            QualifiedContext<VBAParser.ArgListContext> argListQualifiedContext, QualifiedContext<VBAParser.SubStmtContext> subStmtQualifiedContext)
            : base(inspection, subStmtQualifiedContext.ModuleName, subStmtQualifiedContext.Context.subroutineName())
         {

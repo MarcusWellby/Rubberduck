@@ -1,3 +1,4 @@
+using System;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
@@ -9,6 +10,10 @@ namespace Rubberduck.Inspections.Results
 {
     public class MissingAnnotationArgumentInspectionResult : InspectionResultBase
     {
+        public MissingAnnotationArgumentInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public MissingAnnotationArgumentInspectionResult(IInspection inspection, QualifiedContext<VBAParser.AnnotationContext> qualifiedContext)
             : base(inspection, qualifiedContext.ModuleName, qualifiedContext.Context)
         {

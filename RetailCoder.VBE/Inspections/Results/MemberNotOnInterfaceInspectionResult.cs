@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
@@ -13,6 +14,10 @@ namespace Rubberduck.Inspections.Results
         private readonly Declaration _asTypeDeclaration;
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public MemberNotOnInterfaceInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public MemberNotOnInterfaceInspectionResult(IInspection inspection, Declaration target, Declaration asTypeDeclaration)
             : base(inspection, target)
         {

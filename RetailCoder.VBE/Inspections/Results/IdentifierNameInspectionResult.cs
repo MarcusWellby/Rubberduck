@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
@@ -19,6 +20,10 @@ namespace Rubberduck.Inspections.Results
         private readonly IMessageBox _messageBox;
         private readonly IPersistanceService<CodeInspectionSettings> _settings;
 
+        public IdentifierNameInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public IdentifierNameInspectionResult(IInspection inspection, Declaration target, RubberduckParserState parserState, IMessageBox messageBox, 
                                               IPersistanceService<CodeInspectionSettings> settings)
             : base(inspection, target)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
@@ -16,6 +17,10 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
         private readonly QualifiedContext<ParserRuleContext> _qualifiedContext;
 
+        public MultipleDeclarationsInspectionResult(IInspection inspection, InspectionResultTarget target)
+            : base(inspection, target) { }
+
+        [Obsolete]
         public MultipleDeclarationsInspectionResult(IInspection inspection, QualifiedContext<ParserRuleContext> qualifiedContext)
             : base(inspection, qualifiedContext.ModuleName, qualifiedContext.Context)
         {

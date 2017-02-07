@@ -20,11 +20,20 @@ namespace Rubberduck.Inspections.Results
         private readonly bool _allowConvertToProcedure;
         private readonly ParserRuleContext _context;
 
+        public FunctionReturnValueNotUsedInspectionResult(IInspection inspection, InspectionResultTarget target,
+            string name, bool allowConvertToProcedure = true)
+            : base(inspection, target, name)
+        {
+            _allowConvertToProcedure = allowConvertToProcedure;
+        }
+
+        [Obsolete]
         public FunctionReturnValueNotUsedInspectionResult(IInspection inspection, ParserRuleContext context, QualifiedMemberName qualifiedName, Declaration target,
                                                           bool allowConvertToProcedure = true)
             : this(inspection, context, qualifiedName, new List<Tuple<ParserRuleContext, QualifiedSelection, Declaration>>(), target, allowConvertToProcedure)
         { }
 
+        [Obsolete]
         public FunctionReturnValueNotUsedInspectionResult(IInspection inspection, ParserRuleContext context, QualifiedMemberName qualifiedName, 
                                                           IEnumerable<Tuple<ParserRuleContext, QualifiedSelection, Declaration>> children, Declaration target, 
                                                           bool allowConvertToProcedure = true)

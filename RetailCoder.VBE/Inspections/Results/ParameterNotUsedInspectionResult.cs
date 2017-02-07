@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
@@ -19,6 +20,10 @@ namespace Rubberduck.Inspections.Results
         private readonly RubberduckParserState _state;
         private readonly IMessageBox _messageBox;
 
+        public ParameterNotUsedInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public ParameterNotUsedInspectionResult(IInspection inspection, Declaration target,
             bool isInterfaceImplementation, IVBE vbe, RubberduckParserState state, IMessageBox messageBox)
             : base(inspection, target)

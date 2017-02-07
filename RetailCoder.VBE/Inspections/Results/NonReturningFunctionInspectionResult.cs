@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Antlr4.Runtime;
 using Rubberduck.Common;
@@ -16,6 +17,13 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
         private readonly bool _canConvertToProcedure;
 
+        public NonReturningFunctionInspectionResult(IInspection inspection, InspectionResultTarget target, string name, bool canConvertToProcedure)
+            : base(inspection, target, name)
+        {
+            _canConvertToProcedure = canConvertToProcedure;
+        }
+
+        [Obsolete]
         public NonReturningFunctionInspectionResult(IInspection inspection, QualifiedContext<ParserRuleContext> qualifiedContext, Declaration target, bool canConvertToProcedure)
             : base(inspection, qualifiedContext.ModuleName, qualifiedContext.Context, target)
         {

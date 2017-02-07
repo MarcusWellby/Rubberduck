@@ -1,11 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Inspections.Resources;
-using Rubberduck.Parsing.Grammar;
 using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
-using Rubberduck.VBEditor;
 
 namespace Rubberduck.Inspections.Results
 {
@@ -13,9 +12,12 @@ namespace Rubberduck.Inspections.Results
     {
         private IEnumerable<QuickFixBase> _quickFixes; 
 
+        public OptionExplicitInspectionResult(IInspection inspection, InspectionResultTarget target)
+            : base(inspection, target) { }
+
+        [Obsolete]
         public OptionExplicitInspectionResult(IInspection inspection, Declaration target)
-            : base(inspection, target)
-        { }
+            : base(inspection, target) { }
 
         public override IEnumerable<IQuickFix> QuickFixes
         {

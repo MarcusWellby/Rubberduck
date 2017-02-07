@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Antlr4.Runtime;
 using Rubberduck.Common;
@@ -14,7 +15,12 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
         private readonly ParserRuleContext _context;
 
-        public IdentifierNotAssignedInspectionResult(IInspection inspection, Declaration target, ParserRuleContext context) : base(inspection, target)
+        public IdentifierNotAssignedInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
+        public IdentifierNotAssignedInspectionResult(IInspection inspection, Declaration target, ParserRuleContext context) 
+            : base(inspection, target)
         {
             _context = context;
         }

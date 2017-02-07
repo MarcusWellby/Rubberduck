@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
@@ -13,6 +14,10 @@ namespace Rubberduck.Inspections.Results
         private readonly IdentifierReference _reference;
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public ImplicitActiveSheetReferenceInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public ImplicitActiveSheetReferenceInspectionResult(IInspection inspection, IdentifierReference reference)
             : base(inspection, reference.QualifiedModuleName, reference.Context)
         {

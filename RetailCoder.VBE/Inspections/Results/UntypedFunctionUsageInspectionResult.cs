@@ -17,6 +17,10 @@ namespace Rubberduck.Inspections.Results
         private readonly IdentifierReference _reference;
         private IEnumerable<QuickFixBase> _quickFixes;
 
+        public UntypedFunctionUsageInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
+
+        [Obsolete]
         public UntypedFunctionUsageInspectionResult(IInspection inspection, IdentifierReference reference) 
             : base(inspection, reference.QualifiedModuleName, reference.Context)
         {
