@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Rubberduck.Parsing.Inspections.Abstract;
 
@@ -15,23 +16,26 @@ namespace Rubberduck.Parsing.Grammar
     {
         public partial class AnnotationContext : IInspectable
         {
-            private readonly ConcurrentBag<IInspectionResult> _results = 
+            private ConcurrentBag<IInspectionResult> _results = 
                 new ConcurrentBag<IInspectionResult>();
 
             public IEnumerable<IInspectionResult> InspectionResults { get { return _results; } }
 
             public void Annotate(IInspectionResult result)
             {
-                _results.Add(result);
+                try
+                {
+                    _results.Add(result);
+                }
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.Assert(false, e.Message, e.ToString());
+                }
             }
 
             public void ClearInspectionResults()
             {
-                while (!_results.IsEmpty)
-                {
-                    IInspectionResult item;
-                    _results.TryTake(out item);
-                }
+                _results = new ConcurrentBag<IInspectionResult>();
             }
         }
     }
