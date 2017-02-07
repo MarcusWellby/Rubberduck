@@ -28,13 +28,13 @@ namespace Rubberduck.UI.Command.Refactorings
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            if (Vbe.ActiveCodePane == null)
+            if (!_state.Status.IsResolvedOrReady() || Vbe.ActiveCodePane == null)
             {
                 return false;
             }
 
             var target = _state.FindSelectedDeclaration(Vbe.ActiveCodePane);
-            return _state.Status.IsResolvedOrReady() && target != null && !target.IsBuiltIn;
+            return target != null && !target.IsBuiltIn;
         }
 
         protected override void ExecuteImpl(object parameter)

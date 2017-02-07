@@ -45,7 +45,7 @@ namespace Rubberduck.UI.Command
 
         protected override bool CanExecuteImpl(object parameter)
         {
-            if (_state.Status.IsResolvedOrReady() || _vbe.ActiveCodePane == null)
+            if (!_state.Status.IsResolvedOrReady() || _vbe.ActiveCodePane == null)
             {
                 return false;
             }

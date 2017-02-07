@@ -25,7 +25,7 @@ namespace Rubberduck.UI.Command.Refactorings
         protected override bool CanExecuteImpl(object parameter)
         {
             var pane = Vbe.ActiveCodePane;
-            if (pane == null || _state.Status.IsResolvedOrReady())
+            if (!_state.Status.IsResolvedOrReady() || pane == null)
             {
                 return false;
             }

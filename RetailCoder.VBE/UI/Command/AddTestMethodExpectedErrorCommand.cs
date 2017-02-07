@@ -52,7 +52,7 @@ namespace Rubberduck.UI.Command
         {
             var pane = _vbe.ActiveCodePane;
             {
-                if (_state.Status.IsResolvedOrReady() || pane.IsWrappingNullReference)
+                if (!_state.Status.IsResolvedOrReady() || pane.IsWrappingNullReference)
                 {
                     return false;
                 }
