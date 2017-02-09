@@ -22,7 +22,7 @@ namespace Rubberduck.Inspections.Results
 
         public FunctionReturnValueNotUsedInspectionResult(IInspection inspection, InspectionResultTarget target,
             string name, bool allowConvertToProcedure = true)
-            : base(inspection, target, name)
+            : base(inspection, name)
         {
             _allowConvertToProcedure = allowConvertToProcedure;
         }

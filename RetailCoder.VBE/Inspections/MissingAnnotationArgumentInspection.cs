@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using LibGit2Sharp;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Inspections.Results;
@@ -33,26 +32,11 @@ namespace Rubberduck.Inspections
             _parseTreeResults = results;
         }
 
-        public override IEnumerable<IInspectionResult> GetInspectionResults()
-        {
-            if (ParseTreeResults == null)
-            {
-                return Enumerable.Empty<IInspectionResult>();
-            }
-
-            return (from result in ParseTreeResults
-                    let context = result.Context 
-                    where context.annotationName().GetText() == AnnotationType.Ignore.ToString() 
-                       || context.annotationName().GetText() == AnnotationType.Folder.ToString() 
-                    where context.annotationArgList() == null 
-                    select new MissingAnnotationArgumentInspectionResult(this, result)).ToList();
-        }
-
         public override void Execute()
         {
             if (ParseTreeResults == null) { return; }
 
-            var issues = (
+            var issues = 
                 from result in ParseTreeResults
                 let module = State.DeclarationFinder.UserDeclarations(DeclarationType.Module)
                                                     .SingleOrDefault(m => m.QualifiedName == result.MemberName)
@@ -61,11 +45,16 @@ namespace Rubberduck.Inspections
                 where name == AnnotationType.Ignore.ToString()
                    || name == AnnotationType.Folder.ToString()
                 where context.annotationArgList() == null
-                select new MissingAnnotationArgumentInspectionResult(this, new InspectionResultTarget(module, result.Context), name));
+                select new
+                {
+                    Target = context, 
+                    Result = new MissingAnnotationArgumentInspectionResult(this, 
+                        string.Format(InspectionsUI.MissingAnnotationArgumentInspectionResultFormat, name))
+                };
 
             foreach (var issue in issues)
             {
-                ((VBAParser.AnnotationContext)issue.Context).Annotate(issue);
+                issue.Target.InspectionResults().Add(issue.Result);
             }
         }
 

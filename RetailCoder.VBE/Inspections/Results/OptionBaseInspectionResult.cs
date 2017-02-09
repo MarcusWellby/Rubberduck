@@ -13,7 +13,7 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
 
         public OptionBaseInspectionResult(IInspection inspection, InspectionResultTarget target)
-            : base(inspection, target) { }
+            : base(inspection) { }
 
         [Obsolete]
         public OptionBaseInspectionResult(IInspection inspection, Declaration target)

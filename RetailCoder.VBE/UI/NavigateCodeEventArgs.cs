@@ -24,9 +24,9 @@ namespace Rubberduck.UI
 
     public class NavigateCodeEventArgs : EventArgs
     {
-        public NavigateCodeEventArgs(QualifiedModuleName qualifiedName, ParserRuleContext context)
+        public NavigateCodeEventArgs(Declaration module, ParserRuleContext context)
         {
-            _qualifiedName = qualifiedName;
+            _qualifiedName = module.QualifiedName.QualifiedModuleName;
             _selection = context.GetSelection();
         }
 
@@ -43,7 +43,6 @@ namespace Rubberduck.UI
                 return;
             }
 
-            _declaration = declaration;
             _qualifiedName = declaration.QualifiedName.QualifiedModuleName;
             _selection = declaration.Selection;
         }
@@ -55,7 +54,6 @@ namespace Rubberduck.UI
                 return;
             }
 
-            _reference = reference;
             _qualifiedName = reference.QualifiedModuleName;
             _selection = reference.Selection;
         }
@@ -64,12 +62,6 @@ namespace Rubberduck.UI
             :this(qualifiedSelection.QualifiedName, qualifiedSelection.Selection)
         {
         }
-
-        private readonly IdentifierReference _reference;
-        public IdentifierReference Reference { get { return _reference; } }
-
-        private readonly Declaration _declaration;
-        public Declaration Declaration { get { return _declaration; } }
 
         private readonly QualifiedModuleName _qualifiedName;
         public QualifiedModuleName QualifiedName { get { return _qualifiedName; } }

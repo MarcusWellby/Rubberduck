@@ -15,7 +15,7 @@ namespace Rubberduck.Inspections.Results
         private readonly RubberduckParserState _state;
 
         public DefaultProjectNameInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public DefaultProjectNameInspectionResult(IInspection inspection, Declaration target, RubberduckParserState state)

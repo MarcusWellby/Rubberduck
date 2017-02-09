@@ -18,7 +18,7 @@ namespace Rubberduck.Inspections.Results
         private readonly IIndenter _indenter;
 
         public EncapsulatePublicFieldInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public EncapsulatePublicFieldInspectionResult(IInspection inspection, Declaration target, RubberduckParserState state, IIndenter indenter)

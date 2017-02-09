@@ -121,8 +121,7 @@
     <Compile Include="ComReflection\ComVariant.cs" />
     <Compile Include="Emitter.cs" />
     <Compile Include="Grammar\Annotations.cs" />
-    <Compile Include="Grammar\IInspectable.cs" />
-    <Compile Include="Grammar\InspectableContext.cs" />
+    <Compile Include="Grammar\InspectionTarget.cs" />
     <Compile Include="Grammar\PartialContexts.cs" />
     <Compile Include="Grammar\Tokens.cs" />
     <Compile Include="Grammar\VBALexer.cs" />
@@ -134,7 +133,6 @@
     <Compile Include="Inspections\Abstract\IInspection.cs" />
     <Compile Include="Inspections\Abstract\IInspectionModel.cs" />
     <Compile Include="Inspections\Abstract\IInspectionResult.cs" />
-    <Compile Include="Inspections\Abstract\InspectionResultTarget.cs" />
     <Compile Include="Inspections\Abstract\IParseTreeInspection.cs" />
     <Compile Include="Inspections\Abstract\IQuickFix.cs" />
     <Compile Include="Inspections\CodeInspectionSeverity.cs" />

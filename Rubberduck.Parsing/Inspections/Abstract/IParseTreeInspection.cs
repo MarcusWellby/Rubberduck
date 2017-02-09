@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Antlr4.Runtime;
 
 namespace Rubberduck.Parsing.Inspections.Abstract
 {
@@ -9,14 +8,5 @@ namespace Rubberduck.Parsing.Inspections.Abstract
         /// Parse tree inspections have their results property-injected.
         /// </summary>
         void SetResults(IEnumerable<QualifiedContext> results);
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TContext"></typeparam>
-    public interface IParseTreeInspection<TContext> : IParseTreeInspection where TContext : ParserRuleContext
-    {
-        IEnumerable<QualifiedContext<TContext>> ParseTreeResults { get; }
     }
 }

@@ -18,7 +18,7 @@ namespace Rubberduck.Parsing.Symbols
     /// Defines a declared identifier.
     /// </summary>
     [DebuggerDisplay("({DeclarationType}) {Accessibility} {IdentifierName} As {AsTypeName} | {Selection}")]
-    public class Declaration : IEquatable<Declaration>, IInspectable
+    public class Declaration : IEquatable<Declaration>
     {
         public static readonly string[] BaseTypes =
         {

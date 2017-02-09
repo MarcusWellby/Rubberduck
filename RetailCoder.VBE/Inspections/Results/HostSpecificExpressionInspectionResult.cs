@@ -9,7 +9,7 @@ namespace Rubberduck.Inspections.Results
     public class HostSpecificExpressionInspectionResult : InspectionResultBase
     {
         public HostSpecificExpressionInspectionResult(IInspection inspection, InspectionResultTarget target)
-            : base(inspection, target){ }
+            : base(inspection){ }
 
         [Obsolete]
         public HostSpecificExpressionInspectionResult(IInspection inspection, Declaration target)

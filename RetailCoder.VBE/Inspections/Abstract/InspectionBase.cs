@@ -44,7 +44,10 @@ namespace Rubberduck.Inspections.Abstract
         /// A method that inspects the parser state and returns all issues it can find.
         /// </summary>
         /// <returns></returns>
-        public abstract IEnumerable<IInspectionResult> GetInspectionResults();
+        public virtual IEnumerable<IInspectionResult> GetInspectionResults()
+        {
+            yield break;
+        }
 
         /// <summary>
         /// The inspection type name, obtained by reflection.
@@ -145,23 +148,7 @@ namespace Rubberduck.Inspections.Abstract
         // todo: make abstract, have each inspection annotate their own stuff
         public virtual void Execute()
         {
-            var results = GetInspectionResults();
-            foreach (var inspectionResult in results.Select(result => result))
-            {
-                var declaration = inspectionResult.Target.Target as Declaration;
-                if (declaration != null)
-                {
-                    declaration.Annotate(inspectionResult);
-                    continue;
-                }
 
-                var reference = inspectionResult.Target.Target as IdentifierReference;
-                if (reference != null)
-                {
-                    reference.Annotate(inspectionResult);
-                    continue;
-                }
-            }
         }
 
         public int CompareTo(IInspection other)

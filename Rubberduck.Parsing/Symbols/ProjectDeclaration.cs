@@ -1,12 +1,16 @@
-﻿using Rubberduck.Parsing.ComReflection;
+﻿using System;
+using System.Collections;
+using Rubberduck.Parsing.ComReflection;
 using Rubberduck.VBEditor;
 using System.Collections.Generic;
 using System.Linq;
+using Rubberduck.Parsing.Grammar;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 
 namespace Rubberduck.Parsing.Symbols
 {
-    public sealed class ProjectDeclaration : Declaration
+    public sealed class ProjectDeclaration : Declaration, ICollection<IInspectionResult>
     {
         private readonly List<ProjectReference> _projectReferences;
 
@@ -88,5 +92,49 @@ namespace Rubberduck.Parsing.Symbols
                 return _displayName;
             }
         }
+
+        private readonly InspectionTarget _inspectionTarget = new InspectionTarget();
+
+        #region ICollection<IInspectionResult>
+        public IEnumerator<IInspectionResult> GetEnumerator()
+        {
+            return _inspectionTarget.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Add(IInspectionResult item)
+        {
+            _inspectionTarget.Add(item);
+        }
+
+        public void Clear()
+        {
+            _inspectionTarget.Clear();
+        }
+
+        public bool Contains(IInspectionResult item)
+        {
+            return _inspectionTarget.Contains(item);
+        }
+
+        public void CopyTo(IInspectionResult[] array, int arrayIndex)
+        {
+            _inspectionTarget.CopyTo(array, arrayIndex);
+        }
+
+        [Obsolete("Throws NotSupportedException. Use Clear() method.")]
+        public bool Remove(IInspectionResult item)
+        {
+            return false;
+        }
+
+        public int Count { get { return _inspectionTarget.Count; } }
+
+        public bool IsReadOnly { get { return _inspectionTarget.IsReadOnly; } }
+        #endregion
     }
 }

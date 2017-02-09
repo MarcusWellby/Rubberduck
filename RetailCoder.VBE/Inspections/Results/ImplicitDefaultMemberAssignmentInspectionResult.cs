@@ -12,7 +12,7 @@ namespace Rubberduck.Inspections.Results
         private readonly string _defaultMemberOf;
 
         public ImplicitDefaultMemberAssignmentInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public ImplicitDefaultMemberAssignmentInspectionResult(IInspection inspection, IdentifierReference reference)

@@ -1,11 +1,26 @@
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using Rubberduck.Parsing.Grammar;
+using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor;
 
 namespace Rubberduck.Parsing
 {
     public static class ParserRuleContextExtensions
     {
+        /// <summary>
+        /// Allows annotating a context with inspection results, iterating them, and clearing them.
+        /// </summary>
+        /// <returns>The context instance, cast to an <see cref="ICollection{IInspectionResult}"/>.</returns>
+        /// <exception cref="InvalidCastException">Thrown when context does not implement <see cref="ICollection{IInspectionResult}"/>.</exception>
+        /// <remarks>Backed with a <see cref="ConcurrentBag{IInspectionResult}"/>, the collection does not support <see cref="ICollection{IInspectionResult}.Remove"/>.</remarks>
+        public static ICollection<IInspectionResult> InspectionResults(this ParserRuleContext context)
+        {
+            return (ICollection<IInspectionResult>) context;
+        }
+
         public static Selection GetSelection(this ParserRuleContext context)
         {
             if (context == null)

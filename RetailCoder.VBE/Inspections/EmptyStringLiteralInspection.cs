@@ -11,7 +11,7 @@ using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Inspections
 {
-    public sealed class EmptyStringLiteralInspection : InspectionBase, IParseTreeInspection<VBAParser.LiteralExpressionContext>
+    public sealed class EmptyStringLiteralInspection : InspectionBase, IParseTreeInspection
     {
         private IEnumerable<QualifiedContext> _parseTreeResults;
 
@@ -24,7 +24,7 @@ namespace Rubberduck.Inspections
         public override string Description { get { return InspectionsUI.EmptyStringLiteralInspectionName; } }
         public override CodeInspectionType InspectionType { get { return CodeInspectionType.LanguageOpportunities; } }
 
-        public IEnumerable<QualifiedContext<VBAParser.LiteralExpressionContext>> ParseTreeResults { get { return _parseTreeResults.OfType<QualifiedContext<VBAParser.LiteralExpressionContext>>(); } }
+        private IEnumerable<QualifiedContext<VBAParser.LiteralExpressionContext>> ParseTreeResults { get { return _parseTreeResults.OfType<QualifiedContext<VBAParser.LiteralExpressionContext>>(); } }
 
         public void SetResults(IEnumerable<QualifiedContext> results)
         {

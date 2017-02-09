@@ -15,8 +15,8 @@ namespace Rubberduck.Inspections.Results
         private readonly string _memberName;
         private IEnumerable<QuickFixBase> _quickFixes;
 
-        public ApplicationWorksheetFunctionInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+        public ApplicationWorksheetFunctionInspectionResult(IInspection inspection, string name)
+            : base(inspection, name) { }
 
         [Obsolete]
         public ApplicationWorksheetFunctionInspectionResult(IInspection inspection, QualifiedSelection qualifiedSelection, string memberName)

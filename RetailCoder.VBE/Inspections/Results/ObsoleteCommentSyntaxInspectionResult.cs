@@ -14,7 +14,7 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
 
         public ObsoleteCommentSyntaxInspectionResult(IInspection inspection, InspectionResultTarget target)
-            : base(inspection, target) { }
+            : base(inspection) { }
 
         [Obsolete]
         public ObsoleteCommentSyntaxInspectionResult(IInspection inspection, QualifiedContext<ParserRuleContext> qualifiedContext)

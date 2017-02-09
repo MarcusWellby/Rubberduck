@@ -18,7 +18,7 @@ namespace Rubberduck.Inspections.Results
         private readonly RubberduckParserState _state;
 
         public ParameterCanBeByValInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public ParameterCanBeByValInspectionResult(IInspection inspection, RubberduckParserState state, Declaration target, ParserRuleContext context, QualifiedMemberName qualifiedName)

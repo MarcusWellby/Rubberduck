@@ -18,7 +18,7 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
 
         public MoveFieldCloserToUsageInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public MoveFieldCloserToUsageInspectionResult(IInspection inspection, Declaration target, RubberduckParserState state, IMessageBox messageBox)

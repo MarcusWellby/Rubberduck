@@ -12,7 +12,7 @@ using Rubberduck.Parsing.Inspections.Abstract;
 namespace Rubberduck.Parsing.Symbols
 {
     [DebuggerDisplay("({IdentifierName}) IsAss:{IsAssignment} | {Selection} ")]
-    public class IdentifierReference : IEquatable<IdentifierReference>, IInspectable
+    public class IdentifierReference : IEquatable<IdentifierReference>
     {
         public IdentifierReference(
             QualifiedModuleName qualifiedName, 

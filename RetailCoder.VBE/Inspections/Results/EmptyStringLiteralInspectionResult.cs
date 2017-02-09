@@ -15,7 +15,7 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
 
         public EmptyStringLiteralInspectionResult(IInspection inspection, InspectionResultTarget target)
-            : base(inspection, target) { }
+            : base(inspection) { }
 
         [Obsolete]
         public EmptyStringLiteralInspectionResult(IInspection inspection, QualifiedContext<VBAParser.LiteralExpressionContext> qualifiedContext)

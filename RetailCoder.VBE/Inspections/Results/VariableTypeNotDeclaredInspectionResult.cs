@@ -14,7 +14,7 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
 
         public VariableTypeNotDeclaredInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public VariableTypeNotDeclaredInspectionResult(IInspection inspection, Declaration target)

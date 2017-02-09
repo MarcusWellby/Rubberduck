@@ -21,7 +21,7 @@ namespace Rubberduck.Inspections.Results
         private readonly IPersistanceService<CodeInspectionSettings> _settings;
 
         public IdentifierNameInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public IdentifierNameInspectionResult(IInspection inspection, Declaration target, RubberduckParserState parserState, IMessageBox messageBox, 

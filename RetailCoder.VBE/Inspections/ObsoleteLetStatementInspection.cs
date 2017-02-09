@@ -12,7 +12,7 @@ using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Inspections
 {
-    public sealed class ObsoleteLetStatementInspection : InspectionBase, IParseTreeInspection<VBAParser.LetStmtContext>
+    public sealed class ObsoleteLetStatementInspection : InspectionBase, IParseTreeInspection
     {
         private IEnumerable<QualifiedContext> _results;
 
@@ -24,7 +24,7 @@ namespace Rubberduck.Inspections
         public override string Meta { get { return InspectionsUI.ObsoleteLetStatementInspectionMeta; } }
         public override string Description { get { return InspectionsUI.ObsoleteLetStatementInspectionName; } }
         public override CodeInspectionType InspectionType { get { return CodeInspectionType.LanguageOpportunities; } }
-        public IEnumerable<QualifiedContext<VBAParser.LetStmtContext>> ParseTreeResults { get { return _results.OfType<QualifiedContext<VBAParser.LetStmtContext>>(); } }
+        private IEnumerable<QualifiedContext<VBAParser.LetStmtContext>> ParseTreeResults { get { return _results.OfType<QualifiedContext<VBAParser.LetStmtContext>>(); } }
 
         public void SetResults(IEnumerable<QualifiedContext> results)
         {

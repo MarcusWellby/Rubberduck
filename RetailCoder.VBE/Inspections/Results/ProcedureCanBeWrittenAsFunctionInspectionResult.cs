@@ -22,7 +22,7 @@ namespace Rubberduck.Inspections.Results
        private readonly RubberduckParserState _state;
 
         public ProcedureCanBeWrittenAsFunctionInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public ProcedureCanBeWrittenAsFunctionInspectionResult(IInspection inspection, RubberduckParserState state, 

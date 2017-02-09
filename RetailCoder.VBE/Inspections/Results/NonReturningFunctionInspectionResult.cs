@@ -18,7 +18,7 @@ namespace Rubberduck.Inspections.Results
         private readonly bool _canConvertToProcedure;
 
         public NonReturningFunctionInspectionResult(IInspection inspection, InspectionResultTarget target, string name, bool canConvertToProcedure)
-            : base(inspection, target, name)
+            : base(inspection, name)
         {
             _canConvertToProcedure = canConvertToProcedure;
         }

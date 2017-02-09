@@ -21,7 +21,7 @@ namespace Rubberduck.Inspections.Results
         private readonly IMessageBox _messageBox;
 
         public ParameterNotUsedInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public ParameterNotUsedInspectionResult(IInspection inspection, Declaration target,

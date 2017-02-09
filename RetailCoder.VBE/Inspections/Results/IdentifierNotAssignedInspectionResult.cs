@@ -16,7 +16,7 @@ namespace Rubberduck.Inspections.Results
         private readonly ParserRuleContext _context;
 
         public IdentifierNotAssignedInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, target, name) { }
+            : base(inspection, name) { }
 
         [Obsolete]
         public IdentifierNotAssignedInspectionResult(IInspection inspection, Declaration target, ParserRuleContext context) 

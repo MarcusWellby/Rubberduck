@@ -18,7 +18,7 @@ namespace Rubberduck.Inspections.Results
         private readonly QualifiedContext<ParserRuleContext> _qualifiedContext;
 
         public MultipleDeclarationsInspectionResult(IInspection inspection, InspectionResultTarget target)
-            : base(inspection, target) { }
+            : base(inspection) { }
 
         [Obsolete]
         public MultipleDeclarationsInspectionResult(IInspection inspection, QualifiedContext<ParserRuleContext> qualifiedContext)

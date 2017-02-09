@@ -3,17 +3,33 @@ using System.Collections.Generic;
 
 namespace Rubberduck.Parsing.Inspections.Abstract
 {
-    public interface IInspectionResult
-        : IComparable<IInspectionResult>, IComparable
+    /// <summary>
+    /// Describes an inspection result.
+    /// </summary>
+    public interface IInspectionResult //: IComparable<IInspectionResult>, IComparable
     {
+        /// <summary>
+        /// The localized result description.
+        /// </summary>
         string Description { get; }
-        string IdentifierName { get; }
         
+        /// <summary>
+        /// The inspection that produced this result.
+        /// </summary>
         IInspection Inspection { get; }
-        InspectionResultTarget Target { get; }
 
+        /// <summary>
+        /// The <see cref="IQuickFix"/> options available.
+        /// </summary>
         IEnumerable<IQuickFix> QuickFixes { get; }
+
+        /// <summary>
+        /// The default <see cref="IQuickFix"/> for this result, if any.
+        /// </summary>
+        IQuickFix DefaultQuickFix { get; }
     }
+
+ 
 
     public interface ICopyFormatter
     {

@@ -19,10 +19,5 @@ namespace Rubberduck.Parsing.Inspections.Abstract
         /// Runs code inspection and annotates targets.
         /// </summary>
         void Execute();
-
-        /// <summary>
-        /// Gets a string that contains additional/meta information about an inspection.
-        /// </summary>
-        string Meta { get; }
     }
 }
