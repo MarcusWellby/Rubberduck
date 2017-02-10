@@ -1,33 +1,57 @@
-﻿using System.Windows.Threading;
+﻿using System;
+using System.Windows.Threading;
 using Antlr4.Runtime;
+using Rubberduck.Parsing.Grammar;
 using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.VBEditor;
+using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 
 namespace Rubberduck.Inspections.Abstract
 {
     public abstract class QuickFixBase : IQuickFix
     {
         private readonly ParserRuleContext _context;
-        private readonly QualifiedSelection _selection;
+        private readonly QualifiedSelection _qualifiedSelection;
+
+        private readonly ICodeModule _module;
+        private readonly IInspectionResultTarget _target;
         private readonly string _description;
 
-        public QuickFixBase(ParserRuleContext context, QualifiedSelection selection, string description)
+        protected QuickFixBase(ICodeModule module, IInspectionResultTarget target, string description)
+        {
+            Dispatcher.CurrentDispatcher.Thread.CurrentCulture = UI.Settings.Settings.Culture;
+            Dispatcher.CurrentDispatcher.Thread.CurrentUICulture = UI.Settings.Settings.Culture;
+
+            _module = module;
+            _target = target;
+            _description = description;
+        }
+
+        [Obsolete]
+        protected QuickFixBase(ParserRuleContext context, QualifiedSelection selection, string description)
         {
             Dispatcher.CurrentDispatcher.Thread.CurrentCulture = UI.Settings.Settings.Culture;
             Dispatcher.CurrentDispatcher.Thread.CurrentUICulture = UI.Settings.Settings.Culture;
 
             _context = context;
-            _selection = selection;
+            _qualifiedSelection = selection;
             _description = description;
         }
 
         public string Description { get { return _description; } }
-        public ParserRuleContext Context { get { return _context; } }
-        public QualifiedSelection Selection { get { return _selection; } }
+
+        protected ParserRuleContext Context { get { return _context; } }
+
+        public QualifiedSelection QualifiedSelection { get { return _qualifiedSelection; } }
 
         public bool IsCancelled { get; set; }
 
-        public abstract void Fix();
+        protected abstract void Fix(ICodeModule module, IInspectionResultTarget target);
+
+        public virtual void Fix()
+        {
+            Fix(_module, _target);
+        }
 
         /// <summary>
         /// Indicates whether this quickfix can be applied to all inspection results in module.

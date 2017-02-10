@@ -5,16 +5,22 @@ using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Parsing;
+using Rubberduck.Parsing.Grammar;
 using Rubberduck.Parsing.Inspections.Abstract;
+using Rubberduck.VBEditor.SafeComWrappers.Abstract;
 
 namespace Rubberduck.Inspections.Results
 {
     public class ObsoleteCommentSyntaxInspectionResult : InspectionResultBase
     {
+        private readonly ICodeModule _module;
         private IEnumerable<QuickFixBase> _quickFixes;
 
-        public ObsoleteCommentSyntaxInspectionResult(IInspection inspection, InspectionResultTarget target)
-            : base(inspection) { }
+        public ObsoleteCommentSyntaxInspectionResult(IInspection inspection, IInspectionResultTarget target, ICodeModule module)
+            : base(inspection, target, InspectionsUI.ObsoleteCommentSyntaxInspectionResultFormat)
+        {
+            _module = module;
+        }
 
         [Obsolete]
         public ObsoleteCommentSyntaxInspectionResult(IInspection inspection, QualifiedContext<ParserRuleContext> qualifiedContext)
@@ -29,14 +35,9 @@ namespace Rubberduck.Inspections.Results
                 {
                     new ReplaceObsoleteCommentMarkerQuickFix(Context, QualifiedSelection),
                     new RemoveCommentQuickFix(Context, QualifiedSelection), 
-                    new IgnoreOnceQuickFix(Context, QualifiedSelection, Inspection.AnnotationName)
+                    new IgnoreOnceQuickFix(_module, Target, Inspection.AnnotationName)
                 });
             }
-        }
-
-        public override string Description
-        {
-            get { return InspectionsUI.ObsoleteCommentSyntaxInspectionResultFormat; }
         }
     }
 }

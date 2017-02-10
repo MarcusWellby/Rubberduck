@@ -96,7 +96,7 @@ namespace Rubberduck.Inspections
                                    .Select(result => new ProcedureCanBeWrittenAsFunctionInspectionResult(this, new InspectionResultTarget(result.ParentDeclaration, result), result.IdentifierName));
             foreach (IInspectionResult result in results)
             {
-                var declaration = result.Target.Target as Declaration;
+                var declaration = result.Target as Declaration;
                 if (declaration == null) { continue; }
                 declaration.Annotate(result);
             }

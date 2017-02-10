@@ -19,20 +19,20 @@ namespace Rubberduck.Inspections.QuickFixes
 
         public override void Fix()
         {
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             
-            var oldContent = module.GetLines(Selection.Selection);
+            var oldContent = module.GetLines(QualifiedSelection.Selection);
             var newCall = string.Format("WorksheetFunction.{0}", _memberName);
-            var start = Selection.Selection.StartColumn - 1;
+            var start = QualifiedSelection.Selection.StartColumn - 1;
             //The member being called will always be a single token, so this will always be safe (it will be a single line).
-            var end = Selection.Selection.EndColumn - 1;
+            var end = QualifiedSelection.Selection.EndColumn - 1;
             var newContent = oldContent.Substring(0, start) + newCall + 
                 (oldContent.Length > end
                 ? oldContent.Substring(end, oldContent.Length - end)
                 : string.Empty);
 
-            module.DeleteLines(Selection.Selection);
-            module.InsertLines(Selection.Selection.StartLine, newContent);
+            module.DeleteLines(QualifiedSelection.Selection);
+            module.InsertLines(QualifiedSelection.Selection.StartLine, newContent);
         }
     }
 }

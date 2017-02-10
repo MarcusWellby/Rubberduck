@@ -63,7 +63,7 @@ namespace Rubberduck.Inspections.QuickFixes
                 .Replace(Tokens.End + ' ' + endToken, Tokens.End + ' ' + Tokens.Sub)
                 .Replace(Tokens.Exit + ' ' + endToken, Tokens.Exit + ' ' + Tokens.Sub);
 
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             var selection = Context.GetSelection();
 
             module.DeleteLines(selection.StartLine, selection.LineCount);

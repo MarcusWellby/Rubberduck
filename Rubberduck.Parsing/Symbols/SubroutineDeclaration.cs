@@ -10,7 +10,7 @@ namespace Rubberduck.Parsing.Symbols
 {
     public sealed class SubroutineDeclaration : Declaration, IDeclarationWithParameter, ICanBeDefaultMember
     {
-        private readonly List<Declaration> _parameters;
+        private readonly List<ParameterDeclaration> _parameters;
 
         public SubroutineDeclaration(
             QualifiedMemberName name,
@@ -41,7 +41,7 @@ namespace Rubberduck.Parsing.Symbols
                   annotations,
                   attributes)
         {
-            _parameters = new List<Declaration>();
+            _parameters = new List<ParameterDeclaration>();
         }
 
         public SubroutineDeclaration(ComMember member, Declaration parent, QualifiedModuleName module,
@@ -64,13 +64,10 @@ namespace Rubberduck.Parsing.Symbols
                   null,
                   attributes)
         {
-            _parameters =
-                member.Parameters.Select(decl => new ParameterDeclaration(decl, this, module))
-                    .Cast<Declaration>()
-                    .ToList();          
+            _parameters = member.Parameters.Select(decl => new ParameterDeclaration(decl, this, module)).ToList();          
         }
 
-        public IEnumerable<Declaration> Parameters
+        public IEnumerable<ParameterDeclaration> Parameters
         {
             get
             {
@@ -78,7 +75,7 @@ namespace Rubberduck.Parsing.Symbols
             }
         }
 
-        public void AddParameter(Declaration parameter)
+        public void AddParameter(ParameterDeclaration parameter)
         {
             _parameters.Add(parameter);
         }

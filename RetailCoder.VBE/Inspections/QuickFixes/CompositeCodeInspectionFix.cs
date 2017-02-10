@@ -9,7 +9,7 @@ namespace Rubberduck.Inspections.QuickFixes
         private readonly List<QuickFixBase> _children;
 
         public CompositeCodeInspectionFix(QuickFixBase root)
-            : base(root.Context, root.Selection, root.Description)
+            : base(root.Context, root.QualifiedSelection, root.Description)
         {
             _root = root;
             _children = new List<QuickFixBase>();

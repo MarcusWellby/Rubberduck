@@ -10,7 +10,7 @@ using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Parsing.Symbols
 {
-    public sealed class ProceduralModuleDeclaration : Declaration, ICollection<IInspectionResult>
+    public sealed class ProceduralModuleDeclaration : Declaration, IInspectionResultTarget<ProceduralModuleDeclaration>
     {
         public ProceduralModuleDeclaration(
             QualifiedMemberName qualifiedName,
@@ -114,5 +114,7 @@ namespace Rubberduck.Parsing.Symbols
 
         public bool IsReadOnly { get { return _inspectionTarget.IsReadOnly; } }
         #endregion
+
+        public ProceduralModuleDeclaration Target { get { return this; } }
     }
 }

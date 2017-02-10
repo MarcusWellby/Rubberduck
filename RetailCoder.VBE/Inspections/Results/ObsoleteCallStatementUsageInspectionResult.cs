@@ -14,8 +14,8 @@ namespace Rubberduck.Inspections.Results
     {
         private IEnumerable<QuickFixBase> _quickFixes;
 
-        public ObsoleteCallStatementUsageInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, name) { }
+        public ObsoleteCallStatementUsageInspectionResult(IInspection inspection, IInspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
 
         [Obsolete]
         public ObsoleteCallStatementUsageInspectionResult(IInspection inspection, QualifiedContext<VBAParser.CallStmtContext> qualifiedContext)
@@ -28,7 +28,7 @@ namespace Rubberduck.Inspections.Results
             {
                 return _quickFixes ?? (_quickFixes = new QuickFixBase[]
                 {
-                    new RemoveExplicitCallStatmentQuickFix(Context, QualifiedSelection), 
+                    new RemoveExplicitCallStatmentQuickFix(Target, QualifiedSelection), 
                     new IgnoreOnceQuickFix(Context, QualifiedSelection, Inspection.AnnotationName)
                 });
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Rubberduck.Parsing.Grammar;
 
 namespace Rubberduck.Parsing.Inspections.Abstract
 {
@@ -8,6 +9,11 @@ namespace Rubberduck.Parsing.Inspections.Abstract
     /// </summary>
     public interface IInspectionResult //: IComparable<IInspectionResult>, IComparable
     {
+        /// <summary>
+        /// The target (parent) object.
+        /// </summary>
+        IInspectionResultTarget Target { get; }
+
         /// <summary>
         /// The localized result description.
         /// </summary>

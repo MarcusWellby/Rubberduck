@@ -31,9 +31,9 @@ namespace Rubberduck.Inspections.QuickFixes
             }
             else
             {
-                var module = Selection.QualifiedName.Component.CodeModule;
+                var module = QualifiedSelection.QualifiedName.Component.CodeModule;
                 {
-                    var selection = Selection.Selection;
+                    var selection = QualifiedSelection.Selection;
                     var originalCodeLines = module.GetLines(selection.StartLine, selection.LineCount);
 
                     var originalInstruction = Context.GetText();

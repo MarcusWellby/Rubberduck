@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Rubberduck.Common;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.QuickFixes;
+using Rubberduck.Parsing.Grammar;
 using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.Parsing.VBA;
@@ -14,8 +15,8 @@ namespace Rubberduck.Inspections.Results
         private IEnumerable<QuickFixBase> _quickFixes;
         private readonly RubberduckParserState _state;
 
-        public DefaultProjectNameInspectionResult(IInspection inspection, InspectionResultTarget target, string name)
-            : base(inspection, name) { }
+        public DefaultProjectNameInspectionResult(IInspection inspection, IInspectionResultTarget target, string name)
+            : base(inspection, target, name) { }
 
         [Obsolete]
         public DefaultProjectNameInspectionResult(IInspection inspection, Declaration target, RubberduckParserState state)
@@ -30,7 +31,7 @@ namespace Rubberduck.Inspections.Results
             {
                 return _quickFixes ?? (_quickFixes = new QuickFixBase[]
                 {
-                    new RenameProjectQuickFix(Target.Context, Target.QualifiedSelection, Target, _state)
+                    new RenameProjectQuickFix(Target, Target.QualifiedSelection, Target, _state)
                 });
             }
         }

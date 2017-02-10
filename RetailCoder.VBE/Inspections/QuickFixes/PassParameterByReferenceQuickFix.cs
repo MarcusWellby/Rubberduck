@@ -20,9 +20,9 @@ namespace Rubberduck.Inspections.QuickFixes
         {
             var parameter = Context.GetText();
             var newContent = string.Concat(Tokens.ByRef, " ", parameter.Replace(Tokens.ByVal, string.Empty).Trim());
-            var selection = Selection.Selection;
+            var selection = QualifiedSelection.Selection;
 
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             {
                 var lines = module.GetLines(selection.StartLine, selection.LineCount);
                 var result = lines.Replace(parameter, newContent);

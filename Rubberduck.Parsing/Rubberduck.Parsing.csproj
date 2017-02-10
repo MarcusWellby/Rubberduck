@@ -121,6 +121,7 @@
     <Compile Include="ComReflection\ComVariant.cs" />
     <Compile Include="Emitter.cs" />
     <Compile Include="Grammar\Annotations.cs" />
+    <Compile Include="Grammar\IInspectionResultTarget.cs" />
     <Compile Include="Grammar\InspectionTarget.cs" />
     <Compile Include="Grammar\PartialContexts.cs" />
     <Compile Include="Grammar\Tokens.cs" />

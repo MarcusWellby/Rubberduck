@@ -17,7 +17,7 @@ namespace Rubberduck.Inspections.QuickFixes
         public override void Fix()
         {
             var newContent = new StringBuilder();
-            var selection = Selection.Selection;
+            var selection = QualifiedSelection.Selection;
             var keyword = string.Empty;
 
             var variables = Context.Parent as VBAParser.VariableStmtContext;
@@ -60,7 +60,7 @@ namespace Rubberduck.Inspections.QuickFixes
                 }
             }
 
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             module.DeleteLines(selection);
             module.InsertLines(selection.StartLine, newContent.ToString());
         }

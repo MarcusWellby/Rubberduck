@@ -18,7 +18,7 @@ namespace Rubberduck.Inspections.QuickFixes
 
         public override void Fix()
         {
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             var contextLines = module.GetLines(Context.GetSelection());
             var originalIndent = contextLines.Substring(0, contextLines.TakeWhile(c => c == ' ').Count());
 

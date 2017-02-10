@@ -11,7 +11,7 @@ using Rubberduck.Parsing.VBA;
 
 namespace Rubberduck.Inspections
 {
-    public sealed class ObsoleteCallStatementInspection : InspectionBase, IParseTreeInspection<VBAParser.CallStmtContext>
+    public sealed class ObsoleteCallStatementInspection : InspectionBase, IParseTreeInspection
     {
         private IEnumerable<QualifiedContext> _parseTreeResults;
 
@@ -27,14 +27,9 @@ namespace Rubberduck.Inspections
         public IEnumerable<QualifiedContext<VBAParser.CallStmtContext>> ParseTreeResults { get { return _parseTreeResults.OfType<QualifiedContext<VBAParser.CallStmtContext>>(); } }
         public void SetResults(IEnumerable<QualifiedContext> results) { _parseTreeResults = results; }
 
-        public override IEnumerable<IInspectionResult> GetInspectionResults()
+        public override void Execute()
         {
-            if (ParseTreeResults == null)
-            {
-                return new InspectionResultBase[] { };
-            }
-
-            var results = new List<ObsoleteCallStatementUsageInspectionResult>();
+            if (ParseTreeResults == null) { return; }
 
             foreach (var context in ParseTreeResults.Where(context => !IsIgnoringInspectionResultFor(context.ModuleName.Component, context.Context.Start.Line)))
             {
@@ -52,13 +47,12 @@ namespace Rubberduck.Inspections
 
                     if (!stringStrippedLines.Contains(":"))
                     {
-                        results.Add(new ObsoleteCallStatementUsageInspectionResult(this,
-                                new QualifiedContext<VBAParser.CallStmtContext>(context.ModuleName, context.Context)));
+                        var target = context.Context.Target;
+                        var result = new ObsoleteCallStatementUsageInspectionResult(this, target, Tokens.Call);
+                        target.Add(result);
                     }
                 }
             }
-
-            return results;
         }
 
         public class ObsoleteCallStatementListener : VBAParserBaseListener

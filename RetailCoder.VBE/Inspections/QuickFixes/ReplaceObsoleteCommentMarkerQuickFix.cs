@@ -16,7 +16,7 @@ namespace Rubberduck.Inspections.QuickFixes
 
         public override void Fix()
         {
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
 
             if (module.IsWrappingNullReference)
             {
@@ -29,7 +29,7 @@ namespace Rubberduck.Inspections.QuickFixes
                              Tokens.CommentMarker +
                              comment.Substring(Tokens.Rem.Length, comment.Length - Tokens.Rem.Length);
 
-            var lines = Selection.Selection.LineCount;
+            var lines = QualifiedSelection.Selection.LineCount;
             if (lines > 1)
             {
                 module.DeleteLines(start + 1, lines - 1);

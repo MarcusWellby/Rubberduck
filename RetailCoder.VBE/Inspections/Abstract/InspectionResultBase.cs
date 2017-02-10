@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Antlr4.Runtime;
+using Rubberduck.Parsing.Grammar;
 using Rubberduck.Parsing.Inspections.Abstract;
 using Rubberduck.Parsing.Symbols;
 using Rubberduck.VBEditor;
@@ -11,11 +12,13 @@ namespace Rubberduck.Inspections.Abstract
     public abstract class InspectionResultBase : IInspectionResult
     {
         private readonly IInspection _inspection;
+        private readonly IInspectionResultTarget _target;
         private readonly string _description;
 
-        protected InspectionResultBase(IInspection inspection, string description)
+        protected InspectionResultBase(IInspection inspection, IInspectionResultTarget target, string description)
         {
             _inspection = inspection;
+            _target = target;
             _description = description;
         }
 
@@ -46,6 +49,8 @@ namespace Rubberduck.Inspections.Abstract
         #endregion
 
         public IInspection Inspection { get { return _inspection; } }
+
+        public IInspectionResultTarget Target { get { return _target; } }
 
         public string Description { get {return _description; } }
 

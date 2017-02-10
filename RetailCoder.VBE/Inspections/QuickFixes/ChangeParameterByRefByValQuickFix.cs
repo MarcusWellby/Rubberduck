@@ -24,7 +24,7 @@ namespace Rubberduck.Inspections.QuickFixes
                 var parameter = Context.GetText();
                 dynamic args = Context.parent;
                 var argList = args.GetText();
-                var module = Selection.QualifiedName.Component.CodeModule;
+                var module = QualifiedSelection.QualifiedName.Component.CodeModule;
                 {
                     string result;
                     if (context.OPTIONAL() != null)

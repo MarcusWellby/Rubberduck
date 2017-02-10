@@ -19,9 +19,9 @@ namespace Rubberduck.Inspections.QuickFixes
         {
             var originalInstruction = Context.GetText();
             var newInstruction = GetNewSignature(Context);
-            var selection = Selection.Selection;
+            var selection = QualifiedSelection.Selection;
 
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             var lines = module.GetLines(selection.StartLine, selection.LineCount);
 
             var result = lines.Remove(Context.Start.Column, originalInstruction.Length)

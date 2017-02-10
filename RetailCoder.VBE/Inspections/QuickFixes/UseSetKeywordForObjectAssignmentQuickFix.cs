@@ -21,15 +21,15 @@ namespace Rubberduck.Inspections.QuickFixes
 
         public override void Fix()
         {
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             {
-                var codeLine = module.GetLines(Selection.Selection.StartLine, 1);
+                var codeLine = module.GetLines(QualifiedSelection.Selection.StartLine, 1);
 
                 var letStatementLeftSide = Context.GetText();
                 var setStatementLeftSide = Tokens.Set + ' ' + letStatementLeftSide;
 
                 var correctLine = codeLine.Replace(letStatementLeftSide, setStatementLeftSide);
-                module.ReplaceLine(Selection.Selection.StartLine, correctLine);
+                module.ReplaceLine(QualifiedSelection.Selection.StartLine, correctLine);
             }
         }
     }

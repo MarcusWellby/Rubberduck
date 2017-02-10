@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Parsing.Symbols
 {
     [DebuggerDisplay("({IdentifierName}) IsAss:{IsAssignment} | {Selection} ")]
-    public class IdentifierReference : IEquatable<IdentifierReference>
+    public class IdentifierReference : IEquatable<IdentifierReference>, IInspectionResultTarget<IdentifierReference>
     {
         public IdentifierReference(
             QualifiedModuleName qualifiedName, 
@@ -160,5 +161,51 @@ namespace Rubberduck.Parsing.Symbols
         {
             return HashCode.Compute(QualifiedModuleName, Selection, Declaration);
         }
+
+        private readonly InspectionTarget _inspectionTarget = new InspectionTarget();
+
+        #region ICollection<IInspectionResult>
+        public IEnumerator<IInspectionResult> GetEnumerator()
+        {
+            return _inspectionTarget.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Add(IInspectionResult item)
+        {
+            _inspectionTarget.Add(item);
+        }
+
+        public void Clear()
+        {
+            _inspectionTarget.Clear();
+        }
+
+        public bool Contains(IInspectionResult item)
+        {
+            return _inspectionTarget.Contains(item);
+        }
+
+        public void CopyTo(IInspectionResult[] array, int arrayIndex)
+        {
+            _inspectionTarget.CopyTo(array, arrayIndex);
+        }
+
+        [Obsolete("Throws NotSupportedException. Use Clear() method.")]
+        public bool Remove(IInspectionResult item)
+        {
+            return false;
+        }
+
+        public int Count { get { return _inspectionTarget.Count; } }
+
+        public bool IsReadOnly { get { return _inspectionTarget.IsReadOnly; } }
+        #endregion
+
+        public IdentifierReference Target { get { return this; } }
     }
 }

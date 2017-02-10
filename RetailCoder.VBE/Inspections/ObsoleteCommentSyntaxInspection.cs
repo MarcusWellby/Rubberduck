@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Antlr4.Runtime;
 using Rubberduck.Inspections.Abstract;
 using Rubberduck.Inspections.Resources;
 using Rubberduck.Inspections.Results;
@@ -12,7 +11,7 @@ using Rubberduck.Parsing.VBA;
 
 namespace Rubberduck.Inspections
 {
-    public sealed class ObsoleteCommentSyntaxInspection : InspectionBase, IParseTreeInspection<VBAParser.RemCommentContext>
+    public sealed class ObsoleteCommentSyntaxInspection : InspectionBase, IParseTreeInspection
     {
         private IEnumerable<QualifiedContext> _results;
 
@@ -22,14 +21,24 @@ namespace Rubberduck.Inspections
         public override string Description { get { return InspectionsUI.ObsoleteCommentSyntaxInspectionName; } }
         public override CodeInspectionType InspectionType { get { return CodeInspectionType.LanguageOpportunities; } }
 
-        public override IEnumerable<IInspectionResult> GetInspectionResults()
+        public override void Execute()
         {
-            if (ParseTreeResults == null)
+            if (ParseTreeResults == null) { return; }
+
+            var issues = from issue in ParseTreeResults
+                where !IsIgnoringInspectionResultFor(issue.ModuleName.Component, issue.Context.Start.Line)
+                let target = issue.Context
+                let module = issue.ModuleName.Component.CodeModule
+                select new
+                {
+                    Target = target,
+                    Result = new ObsoleteCommentSyntaxInspectionResult(this, target.Target, module)
+                };
+
+            foreach (var issue in issues)
             {
-                return new InspectionResultBase[] { };
+                issue.Target.Add(issue.Result);
             }
-            return ParseTreeResults.Where(context => !IsIgnoringInspectionResultFor(context.ModuleName.Component, context.Context.Start.Line))
-                .Select(context => new ObsoleteCommentSyntaxInspectionResult(this, new QualifiedContext<ParserRuleContext>(context.ModuleName, context.Context)));
         }
 
         public void SetResults(IEnumerable<QualifiedContext> results)
@@ -37,7 +46,7 @@ namespace Rubberduck.Inspections
             _results = results;
         }
 
-        public IEnumerable<QualifiedContext<VBAParser.RemCommentContext>> ParseTreeResults { get { return _results.OfType<QualifiedContext<VBAParser.RemCommentContext>>(); } }
+        private IEnumerable<QualifiedContext<VBAParser.RemCommentContext>> ParseTreeResults { get { return _results.OfType<QualifiedContext<VBAParser.RemCommentContext>>(); } }
 
 
         public class ObsoleteCommentSyntaxListener : VBAParserBaseListener

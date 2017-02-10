@@ -32,7 +32,7 @@ namespace Rubberduck.Inspections.QuickFixes
             }
             else
             {
-                FixMethod((VBAParser.ArgContext)Context, Selection);
+                FixMethod((VBAParser.ArgContext)Context, QualifiedSelection);
             }
         }
 

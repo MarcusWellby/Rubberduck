@@ -11,7 +11,7 @@ using Rubberduck.Parsing.Inspections.Abstract;
 
 namespace Rubberduck.Parsing.Symbols
 {
-    public sealed class ClassModuleDeclaration : Declaration, ICollection<IInspectionResult>
+    public sealed class ClassModuleDeclaration : Declaration, IInspectionResultTarget<ClassModuleDeclaration>
     {
         private readonly List<string> _supertypeNames;
         private readonly HashSet<Declaration> _supertypes;
@@ -292,5 +292,7 @@ namespace Rubberduck.Parsing.Symbols
 
         public bool IsReadOnly { get { return _inspectionTarget.IsReadOnly; } }
         #endregion
+
+        public ClassModuleDeclaration Target { get { return this; } }
     }
 }

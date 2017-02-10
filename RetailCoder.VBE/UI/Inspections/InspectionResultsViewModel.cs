@@ -345,7 +345,7 @@ namespace Rubberduck.UI.Inspections
                 .Where(result => !(result is AggregateInspectionResult))
                 .Select(item => item.QuickFixes.Single(fix => fix.GetType() == _defaultFix.GetType()))
                 .Union(filteredResults.OfType<AggregateInspectionResult>().Select(aggregate => aggregate.DefaultQuickFix))
-                .OrderByDescending(fix => fix.Selection);
+                .OrderByDescending(fix => fix.QualifiedSelection);
             ExecuteQuickFixes(items);
         }
 
@@ -388,9 +388,9 @@ namespace Rubberduck.UI.Inspections
 
             var items = _results.Where(result => result.Inspection == SelectedInspection)
                 .Select(item => item.QuickFixes.Single(fix => fix.GetType() == _defaultFix.GetType()))
-                .OrderBy(item => item.Selection.QualifiedName.ComponentName)
-                .ThenByDescending(item => item.Selection.Selection.EndLine)
-                .ThenByDescending(item => item.Selection.Selection.EndColumn);
+                .OrderBy(item => item.QualifiedSelection.QualifiedName.ComponentName)
+                .ThenByDescending(item => item.QualifiedSelection.Selection.EndLine)
+                .ThenByDescending(item => item.QualifiedSelection.Selection.EndColumn);
 
             ExecuteQuickFixes(items);
         }

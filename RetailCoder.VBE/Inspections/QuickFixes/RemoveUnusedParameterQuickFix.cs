@@ -32,7 +32,7 @@ namespace Rubberduck.Inspections.QuickFixes
                 var refactoring = new RemoveParametersRefactoring(_vbe,
                     new RemoveParametersPresenterFactory(_vbe, dialog, _state, _messageBox));
 
-                refactoring.QuickFix(_state, Selection);
+                refactoring.QuickFix(_state, QualifiedSelection);
             }
         }
     }

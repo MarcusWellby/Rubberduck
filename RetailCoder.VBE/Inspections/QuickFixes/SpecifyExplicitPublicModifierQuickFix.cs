@@ -17,7 +17,7 @@ namespace Rubberduck.Inspections.QuickFixes
         public override void Fix()
         {
             var selection = Context.GetSelection();
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             {
                 var signatureLine = selection.StartLine;
 

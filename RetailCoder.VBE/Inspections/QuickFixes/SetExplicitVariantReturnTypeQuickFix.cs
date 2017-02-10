@@ -22,7 +22,7 @@ namespace Rubberduck.Inspections.QuickFixes
                 ? procedure + ' ' + Tokens.As + ' ' + Tokens.Variant
                 : procedure.Insert(procedure.LastIndexOf(')') + 1, ' ' + Tokens.As + ' ' + Tokens.Variant);
             
-            var module = Selection.QualifiedName.Component.CodeModule;
+            var module = QualifiedSelection.QualifiedName.Component.CodeModule;
             var selection = Context.GetSelection();
 
             module.DeleteLines(selection.StartLine, selection.LineCount);
